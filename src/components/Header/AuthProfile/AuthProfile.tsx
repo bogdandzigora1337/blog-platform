@@ -9,7 +9,7 @@ const AuthProfile: React.FC = () => {
       <Button
         className={`${cl["auth-profile__button"]}`}
         style={{
-          color: "var(--heading-color, rgba(0, 0, 0, 0.85))",
+          color: "var(--heading-color, rgba(0, 0, 0, 0.85)),",
         }}
         type="link"
       >

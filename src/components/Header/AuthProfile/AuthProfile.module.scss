@@ -1,3 +1,9 @@
 .auth-profile {
   margin-right: 1.38rem;
 }
+
+.auth-profile__button {
+  :active {
+    color: #52c41a;
+  }
+}

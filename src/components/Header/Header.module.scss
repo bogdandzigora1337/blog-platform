@@ -10,14 +10,15 @@
     background: var(--background-color-base, #fff);
   }
 
-  &__name-title {
+  &__title {
     color: var(--heading-color, rgba(0, 0, 0, 0.85));
-
+    text-decoration: none;
     margin-left: 1.38rem;
-
     font-size: 1.125rem;
     font-style: normal;
-    font-weight: 400;
-    line-height: 1.75rem;
+
+    :active {
+      color: rgb(145, 146, 145);
+    }
   }
 }

@@ -25,9 +25,8 @@ const PaginationArticles: React.FC = () => {
     (state: CurrentPageType) => state.articlesReducer.currentPage
   );
 
-  const numberPages = useSelector(
-    (state: NumberPagesType) =>
-      Math.ceil(state.articlesReducer.data.articlesCount / 5) * 10
+  const numberPages = useSelector((state: NumberPagesType) =>
+    Math.ceil(state.articlesReducer.data.articlesCount / 5)
   );
 
   const dispatch = useDispatch<any>();
@@ -47,7 +46,7 @@ const PaginationArticles: React.FC = () => {
     >
       <Pagination
         className={cl["main__pagination"]}
-        total={numberPages}
+        total={numberPages * 10}
         current={currentPage}
         showSizeChanger={false}
         onChange={(page) => {

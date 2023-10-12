@@ -70,13 +70,14 @@
       }
 
       &__title {
+        text-decoration: none;
         display: block;
         margin-right: 0.81rem;
         color: var(--info-color, #1890ff);
         font-size: 1.25rem;
         font-style: normal;
         font-weight: 400;
-        line-height: 1.75rem; /* 140% */
+        line-height: 1.75rem;
       }
 
       &__likes {
