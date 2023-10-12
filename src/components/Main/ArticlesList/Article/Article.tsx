@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import cl from "./Article.module.scss";
 
 import { format } from "date-fns";
+import uniqId from "uniqid";
 
 type RootState = {
   articlesReducer: {
@@ -52,7 +53,7 @@ export const Article: React.FC = () => {
     articles &&
     articles.map((item) => {
       return (
-        <li key={item.slug} className={cl["articles-list__item"]}>
+        <li key={uniqId()} className={cl["articles-list__item"]}>
           <div className={cl["articles-list__item__header"]}>
             <div className={cl["articles-list__item__header__left-content"]}>
               <div
@@ -82,7 +83,7 @@ export const Article: React.FC = () => {
                 }
               >
                 {item.tagList.map((tag) => (
-                  <span key={tag}>{tag}</span>
+                  <span key={uniqId()}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -113,7 +114,8 @@ export const Article: React.FC = () => {
               <img src={item.author.image}></img>
             </div>
           </div>
-          <div className={cl["articles-list__item__main"]}>{item.body}</div>
+          return{" "}
+          <div className={cl["articles-list__item__main"]}>{item.body}</div>;
         </li>
       );
     });

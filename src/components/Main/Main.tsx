@@ -1,34 +1,35 @@
 import React from "react";
 
-import { Pagination, ConfigProvider } from "antd";
-
 import cl from "./Main.module.scss";
 
 import { ArticlesList } from "./ArticlesList/ArticlesList";
+import PaginationArticles from "./PaginationArticles/PaginationArticles";
+
+import { useSelector } from "react-redux";
+
+type HasErrorType = {
+  articlesReducer: {
+    error: null | string;
+  };
+};
 
 const Main: React.FC = () => {
+  const hasError = useSelector(
+    (state: HasErrorType) => state.articlesReducer.error
+  );
+
   return (
     <div className={cl["main"]}>
-      <ArticlesList />
-
-      <ConfigProvider
-        theme={{
-          components: {
-            Pagination: {
-              itemActiveBg: "#1890FF",
-            },
-          },
-          token: {
-            colorPrimary: "ffffff",
-          },
-        }}
-      >
-        <Pagination
-          className={cl["main__pagination"]}
-          defaultCurrent={1}
-          total={50}
-        />
-      </ConfigProvider>
+      {!hasError ? (
+        <>
+          <ArticlesList />
+          <PaginationArticles />
+        </>
+      ) : (
+        <h1 className={cl["main__error-notification"]}>
+          ⚠️ Произошла ошибка при получении данных с сервера!
+        </h1>
+      )}
     </div>
   );
 };
