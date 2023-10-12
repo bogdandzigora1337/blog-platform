@@ -1,13 +1,14 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getArticles } from "../../redux/actions";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 import cl from "./App.module.scss";
 
 import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
+import ArticleExpanded from "../Main/ArticleExpanded/ArticleExpanded";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<any>();
@@ -17,11 +18,12 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className={cl["app"]}>
-      <Header />
-      <Main />
-      <Footer />
-    </div>
+    <Router>
+      <div className={cl["app"]}>
+        <Header />
+        <Main />
+      </div>
+    </Router>
   );
 };
 
