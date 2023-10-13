@@ -8,7 +8,6 @@ import cl from "./App.module.scss";
 
 import Header from "../Header/Header";
 import Main from "../Main/Main";
-import ArticleExpanded from "../Main/ArticleExpanded/ArticleExpanded";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<any>();

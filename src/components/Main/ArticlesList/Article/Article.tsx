@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Markdown from "react-markdown";
 
 import { format } from "date-fns";
 import uniqId from "uniqid";
@@ -8,7 +10,7 @@ import cl from "./Article.module.scss";
 
 import { IconLikes } from "./IconLikes";
 
-type RootState = {
+export type RootState = {
   articlesReducer: {
     data: {
       articles: {
@@ -20,6 +22,7 @@ type RootState = {
 
         body: string;
         createdAt: string;
+        description: string;
         favorited: boolean;
         favoritesCount: number;
         slug: string;
@@ -40,7 +43,7 @@ const truncateText = (text: string, sumSymbol: number): string => {
   return text.trim();
 };
 
-export const Article: React.FC = () => {
+export const ArticlesData: React.FC = () => {
   const articles = useSelector(
     (state: RootState) => state.articlesReducer.data.articles
   );
@@ -48,22 +51,33 @@ export const Article: React.FC = () => {
   const getArticle =
     articles &&
     articles.map((item) => {
-      return (
-        <li key={uniqId()} className={cl["articles-list__item"]}>
-          <ArticleHeader item={item}></ArticleHeader>
-          <ArticleMain item={item}></ArticleMain>
-        </li>
-      );
+      return <Article item={item} key={uniqId()} />;
     });
 
   return <>{getArticle}</>;
 };
 
+export const Article = ({
+  item,
+  children,
+}: {
+  item: ArticleDataType;
+  children?: React.ReactNode;
+}) => {
+  return (
+    <li className={cl["articles-list__item"]}>
+      <ArticleHeader item={item}></ArticleHeader>
+      <ArticleDescription item={item}></ArticleDescription>
+      {children}
+    </li>
+  );
+};
+
 const ArticleHeader = ({ item }: { item: ArticleDataType }) => {
   return (
     <div className={cl["articles-list__item__header"]}>
-      <ArticleHeaderLeftContent item={item}></ArticleHeaderLeftContent>
-      <ArticleHeaderRightContent item={item}></ArticleHeaderRightContent>
+      <ArticleHeaderLeftContent item={item} />
+      <ArticleHeaderRightContent item={item} />
     </div>
   );
 };
@@ -96,8 +110,6 @@ const ArticleHeaderRightContent = ({ item }: { item: ArticleDataType }) => {
 };
 
 const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
-  console.log();
-
   return (
     <div className={cl["articles-list__item__header__left-content"]}>
       <div
@@ -116,18 +128,24 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
         </div>
       </div>
       <div className={cl["articles-list__item__header__left-content__tags"]}>
-        {item.tagList.map((tag) => (
-          <span key={uniqId()}>{truncateText(tag, 10)}</span>
-        ))}
+        {!!item.tagList.length ? (
+          item.tagList.map((tag) => (
+            <span key={uniqId()}>{truncateText(tag, 10)}</span>
+          ))
+        ) : (
+          <>
+            <span>no tags</span>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-const ArticleMain = ({ item }: { item: ArticleDataType }) => {
+const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
   return (
-    <div className={cl["articles-list__item__main"]}>
-      {truncateText(item.body, 400)}
+    <div className={cl["articles-list__item__description"]}>
+      {item.description}
     </div>
   );
 };
