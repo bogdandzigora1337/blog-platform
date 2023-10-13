@@ -1,14 +1,15 @@
 import React from "react";
 
 import { Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import cl from "./Main.module.scss";
 
 import { ArticlesList } from "./ArticlesList/ArticlesList";
 import PaginationArticles from "./PaginationArticles/PaginationArticles";
-import ArticleExpanded from "./ArticleExpanded/ArticleExpanded";
-
-import { useSelector } from "react-redux";
+import { ArticleExpanded } from "./ArticleExpanded/ArticleExpanded";
+import { SingInForm } from "./SingInForm/SingInForm";
+import { SingUpForm } from "./SingUpForm/SingUpForm";
 
 type HasErrorType = {
   articlesReducer: {
@@ -23,6 +24,18 @@ const Main: React.FC = () => {
 
   return (
     <div className={cl["main"]}>
+      <Route
+        path={"/sing-in"}
+        render={() => {
+          return <SingInForm />;
+        }}
+      />
+      <Route
+        path={"/sing-up"}
+        render={() => {
+          return <SingUpForm />;
+        }}
+      />
       {!hasError ? (
         <>
           <Route
