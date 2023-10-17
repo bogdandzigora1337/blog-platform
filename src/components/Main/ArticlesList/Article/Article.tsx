@@ -104,7 +104,7 @@ const ArticleHeaderRightContent = ({ item }: { item: ArticleDataType }) => {
         </p>
       </div>
 
-      <img src={item.author.image} />
+      <img src={item.author.image} alt="no-image" />
     </div>
   );
 };

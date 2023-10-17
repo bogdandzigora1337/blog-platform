@@ -10,6 +10,7 @@ import PaginationArticles from "./PaginationArticles/PaginationArticles";
 import { ArticleExpanded } from "./ArticleExpanded/ArticleExpanded";
 import { SingInForm } from "./SingInForm/SingInForm";
 import { SingUpForm } from "./SingUpForm/SingUpForm";
+import { ProfileEditingForm } from "./ProfileEditingForm/ProfileEditingForm";
 
 type HasErrorType = {
   articlesReducer: {
@@ -24,32 +25,18 @@ const Main: React.FC = () => {
 
   return (
     <div className={cl["main"]}>
-      <Route
-        path={"/sing-in"}
-        render={() => {
-          return <SingInForm />;
-        }}
-      />
-      <Route
-        path={"/sing-up"}
-        render={() => {
-          return <SingUpForm />;
-        }}
-      />
+      <Route path={"/profile"} render={() => <ProfileEditingForm />} />
+      <Route path={"/sing-in"} render={() => <SingInForm />} />
+      <Route path={"/sing-up"} render={() => <SingUpForm />} />
       {!hasError ? (
         <>
-          <Route
-            path="/articles/:slug"
-            render={() => {
-              return <ArticleExpanded />;
-            }}
-          ></Route>
+          <Route path="/articles/:slug" render={() => <ArticleExpanded />} />
 
           <Route
             exact={true}
             path={["/articles", "/"]}
             component={ArticlesList}
-          ></Route>
+          />
 
           <Route
             exact

@@ -1,0 +1,56 @@
+.header {
+  &__user-profile {
+    display: flex;
+    margin-right: 1.37rem;
+    align-items: center;
+
+    &__data {
+      display: flex;
+      align-items: center;
+      margin-right: 1.69rem;
+
+      &__username {
+        margin-right: 0.81rem;
+
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.75rem; /* 155.556% */
+      }
+
+      &__image {
+        width: 2.875rem;
+        height: 2.875rem;
+        flex-shrink: 0;
+        background-color: red;
+        border-radius: 60%;
+
+        &:hover {
+          box-shadow: 0px 0.6088px 2.93329px 0px black;
+        }
+      }
+    }
+  }
+
+  &__btn--create-article {
+    width: 7.01444rem;
+    height: 1.94363rem;
+    margin-right: 1.67rem;
+    flex-shrink: 0;
+
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0rem;
+  }
+
+  &__btn--log-out {
+    width: 6.8125rem;
+    height: 3.1875rem;
+    flex-shrink: 0;
+
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+  }
+}

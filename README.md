@@ -1,1 +1,8 @@
+username:
+kopatel1337
 
+email:
+bogdandzigora22@gmail.com
+
+token:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmUzYTVkZmYzY2M4MWIwMGRhYzMyMSIsInVzZXJuYW1lIjoia29wYXRlbDEzMzciLCJleHAiOjE3MDI3MTI0MTQsImlhdCI6MTY5NzUyODQxNH0.\_zQ1s0enmqfSrmXfDNa98IcH5113acnRNxdBsUTNtYk
