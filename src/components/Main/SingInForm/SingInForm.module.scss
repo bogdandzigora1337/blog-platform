@@ -79,6 +79,10 @@
       background-color: #1890ff;
       box-shadow: 0px 0.6088px 2.93329px 0px black;
     }
+
+    &:disabled {
+      background-color: #595959;
+    }
   }
 
   &__account-log {
@@ -101,4 +105,12 @@
       line-height: 1.25rem;
     }
   }
+}
+
+.input-error {
+  border-color: red !important;
+}
+
+.error-text {
+  color: red !important;
 }

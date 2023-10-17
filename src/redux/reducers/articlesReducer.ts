@@ -31,7 +31,6 @@ export const articlesReducer = (
   state = initialState,
   action: ArticleAction
 ) => {
-  console.log(action);
   switch (action.type) {
     case FETCH_ARTICLES_REQUEST:
       return {
