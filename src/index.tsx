@@ -1,14 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
+
+import App from "./components/App/App";
+import { rootReducer } from "./redux/reducers/rootReducer";
+
 import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk],
+});
+
+const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );

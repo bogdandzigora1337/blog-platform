@@ -1,0 +1,117 @@
+.header {
+  &__user-profile {
+    display: flex;
+    margin-right: 1.37rem;
+    align-items: center;
+
+    @media screen and (max-width: 768px) {
+      position: relative;
+      width: 10rem;
+      margin-right: 0.1rem;
+    }
+
+    &__link {
+      text-decoration: none;
+      color: black;
+    }
+
+    &__data {
+      display: flex;
+      align-items: center;
+      margin-right: 1.69rem;
+
+      @media screen and (max-width: 768px) {
+        margin-right: 1.5rem;
+      }
+
+      &__username {
+        margin-right: 0.81rem;
+
+        text-decoration: none;
+        font-size: 1.125rem;
+        font-weight: 400;
+        line-height: 1.75rem;
+
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+
+      &__image {
+        display: block;
+        width: 2.875rem;
+        height: 2.875rem;
+        flex-shrink: 0;
+        border-radius: 50%;
+
+        &:hover {
+          box-shadow: 0px 0.6088px 2.93329px 0px black;
+        }
+
+        @media screen and (max-width: 768px) {
+          border: 3px solid #ff7e00;
+        }
+      }
+    }
+  }
+
+  &__btn--create-article {
+    width: 7.01444rem;
+    height: 1.94363rem;
+    margin-right: 1.67rem;
+    flex-shrink: 0;
+
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0rem;
+
+    @media screen and (max-width: 768px) {
+      font-size: 0;
+      border: none;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      font-size: 0;
+      margin-right: 0.5rem;
+    }
+
+    &__icon {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+      }
+    }
+  }
+
+  &__btn--log-out {
+    width: 6.8125rem;
+    height: 3.1875rem;
+    flex-shrink: 0;
+
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+
+    @media screen and (max-width: 768px) {
+      font-size: 0;
+      border: none;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+    }
+
+    &__icon {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+      }
+    }
+  }
+}
