@@ -30,19 +30,25 @@ export const UserProfileHeader: React.FC = () => {
 
   return (
     <div className={cl["header__user-profile"]}>
-      <Button
-        className={cl["header__btn--create-article"]}
-        style={{
-          borderColor: "1px solid var(--success-color, #52C41A)",
-          color: "var(--success-color, #52C41A)",
-        }}
+      <Link
+        to={"/new-article"}
+        className={cl["header__user-profile__link--create-article"]}
       >
-        Create article
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/4581/4581800.png"
-          className={cl["header__btn--create-article__icon"]}
-        ></img>
-      </Button>
+        <Button
+          className={cl["header__btn--create-article"]}
+          style={{
+            borderColor: "1px solid var(--success-color, #52C41A)",
+            color: "var(--success-color, #52C41A)",
+          }}
+        >
+          Create article
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/4581/4581800.png"
+            className={cl["header__btn--create-article__icon"]}
+          ></img>
+        </Button>
+      </Link>
+
       <Link to="/profile" className={cl["header__user-profile__link"]}>
         <div className={cl["header__user-profile__data"]}>
           <h6 className={cl["header__user-profile__data__username"]}>

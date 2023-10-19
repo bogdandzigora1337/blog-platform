@@ -11,6 +11,7 @@ import { ArticleExpanded } from "./ArticleExpanded/ArticleExpanded";
 import { SingInForm } from "./SingInForm/SingInForm";
 import { SingUpForm } from "./SingUpForm/SingUpForm";
 import { ProfileEditingForm } from "./ProfileEditingForm/ProfileEditingForm";
+import { ArticlesCreating } from "./CreatingArticles/CreatingArticles";
 
 type HasErrorType = {
   articlesReducer: {
@@ -28,6 +29,7 @@ const Main: React.FC = () => {
       <Route path={"/profile"} render={() => <ProfileEditingForm />} />
       <Route path={"/sing-in"} render={() => <SingInForm />} />
       <Route path={"/sing-up"} render={() => <SingUpForm />} />
+      <Route path={"/new-article"} render={() => <ArticlesCreating />}></Route>
       {!hasError ? (
         <>
           <Route path="/articles/:slug" render={() => <ArticleExpanded />} />

@@ -7,15 +7,18 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_FAILURE,
   REGISTER_USER_SUCCESS,
+  CLEAR_REGISTER_USER_DATA,
   LOGIN_TO_ACCOUNT_FAILURE,
   LOGIN_TO_ACCOUNT_REQUEST,
   LOGIN_TO_ACCOUNT_SUCCESS,
-  CLEAR_REGISTER_USER_DATA,
   LOGIN_OUT,
   CHANGE_USER_DATA_FAILURE,
   CHANGE_USER_DATA_REQUEST,
   CHANGE_USER_DATA_SUCCESS,
   CLEAR_CHANGE_USER_DATA_ERROR,
+  CREATE_ARTICLES_FAILURE,
+  CREATE_ARTICLES_REQUEST,
+  CREATE_ARTICLES_SUCCESS,
 } from "./types";
 
 export const clearChangeUserDataErr = () => ({
@@ -229,6 +232,65 @@ export const changeUserData = (data: userDataType) => {
       })
       .catch((error) => {
         dispatch(changeUserDataFailureAction(error.message));
+      });
+  };
+};
+
+type createArticleDataType = {
+  token: string | null;
+  data: {
+    article: {
+      title: string;
+      description: string;
+      body: string;
+      tags: string[];
+    };
+  };
+};
+
+export const createArticleRequestAction = () => ({
+  type: CREATE_ARTICLES_REQUEST,
+});
+
+export const createArticleSuccessAction = (data: unknown) => ({
+  type: CREATE_ARTICLES_SUCCESS,
+  payload: data,
+});
+
+export const createArticleFailureAction = (error: string | object) => ({
+  type: CHANGE_USER_DATA_FAILURE,
+  payload: error,
+});
+
+export const createArticle = (data: createArticleDataType) => {
+  return (dispatch: Dispatch) => {
+    dispatch(createArticleRequestAction());
+
+    fetch("https://blog.kata.academy/api/articles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${data.token}`,
+      },
+      body: JSON.stringify(data.data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 422) {
+            return response.json().then((errorData) => {
+              dispatch(createArticleFailureAction(errorData));
+            });
+          }
+          throw new Error("Network response was not ok");
+        } else {
+          return response.json();
+        }
+      })
+      .then((responseData) => {
+        dispatch(createArticleSuccessAction(responseData));
+      })
+      .catch((error) => {
+        dispatch(createArticleFailureAction(error.message));
       });
   };
 };
