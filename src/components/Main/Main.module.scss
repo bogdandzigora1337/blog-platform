@@ -2,12 +2,12 @@
   position: relative;
 
   background: var(--Background, #ebeef3);
-  min-height: 100vh;
   padding-top: 1.62rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-height: 88vh;
 
   &__error-notification {
     position: absolute;

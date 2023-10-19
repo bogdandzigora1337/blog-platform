@@ -5,7 +5,7 @@ import { registrationReducer } from "./registrationReducer";
 import { logToAccountReducer } from "./logToAccountReducer";
 
 export const rootReducer = combineReducers({
-  articlesReducer,
-  registrationReducer,
-  logToAccountReducer,
+  articlesReducer: articlesReducer,
+  registrationReducer: registrationReducer,
+  logToAccountReducer: logToAccountReducer,
 });

@@ -3,25 +3,35 @@ import {
   LOGIN_TO_ACCOUNT_REQUEST,
   LOGIN_TO_ACCOUNT_SUCCESS,
   LOGIN_OUT,
+  CHANGE_USER_DATA_FAILURE,
+  CHANGE_USER_DATA_REQUEST,
+  CHANGE_USER_DATA_SUCCESS,
+  CLEAR_CHANGE_USER_DATA_ERROR,
 } from "../types";
 
 interface IuserState {
-  data: unknown[] | null;
+  data: object | null;
   loader: boolean;
-  error: string | null;
+  error: string | null | object;
+  editingError: string | null | object | boolean;
 }
 
 const initialState: IuserState = {
   data: null,
   loader: false,
   error: null,
+  editingError: null,
 };
 
 type userAction =
   | { type: typeof LOGIN_TO_ACCOUNT_REQUEST }
   | { type: typeof LOGIN_TO_ACCOUNT_SUCCESS; payload: object }
-  | { type: typeof LOGIN_TO_ACCOUNT_FAILURE; payload: string }
-  | { type: typeof LOGIN_OUT };
+  | { type: typeof LOGIN_TO_ACCOUNT_FAILURE; payload: string | object }
+  | { type: typeof LOGIN_OUT }
+  | { type: typeof CHANGE_USER_DATA_REQUEST }
+  | { type: typeof CHANGE_USER_DATA_SUCCESS; payload: object }
+  | { type: typeof CHANGE_USER_DATA_FAILURE; payload: string | object }
+  | { type: typeof CLEAR_CHANGE_USER_DATA_ERROR };
 
 export const logToAccountReducer = (
   state = initialState,
@@ -48,11 +58,39 @@ export const logToAccountReducer = (
         loader: false,
       };
 
+    case CHANGE_USER_DATA_REQUEST:
+      return {
+        ...state,
+        loader: true,
+        editingError: null,
+      };
+
+    case CHANGE_USER_DATA_SUCCESS:
+      return {
+        ...state,
+        loader: false,
+        data: action.payload,
+        editingError: false,
+      };
+
+    case CHANGE_USER_DATA_FAILURE:
+      return {
+        ...state,
+        editingError: action.payload,
+        loader: false,
+      };
+
+    case CLEAR_CHANGE_USER_DATA_ERROR:
+      return {
+        ...state,
+        editingError: null,
+      };
+
     case LOGIN_OUT:
       return {
         ...state,
         error: null,
-        loading: false,
+        loader: false,
         data: null,
       };
 

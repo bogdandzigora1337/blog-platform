@@ -12,7 +12,15 @@ import {
   LOGIN_TO_ACCOUNT_SUCCESS,
   CLEAR_REGISTER_USER_DATA,
   LOGIN_OUT,
+  CHANGE_USER_DATA_FAILURE,
+  CHANGE_USER_DATA_REQUEST,
+  CHANGE_USER_DATA_SUCCESS,
+  CLEAR_CHANGE_USER_DATA_ERROR,
 } from "./types";
+
+export const clearChangeUserDataErr = () => ({
+  type: CLEAR_CHANGE_USER_DATA_ERROR,
+});
 
 export const logToAccRequest = () => ({
   type: LOGIN_TO_ACCOUNT_REQUEST,
@@ -32,15 +40,19 @@ export const logOutAction = () => ({
   type: LOGIN_OUT,
 });
 
-type LogUserType = {
+type userDataType = {
+  token?: string | null;
   user: {
-    email: string;
-    password: string;
+    username?: string;
+    email?: string;
+    password?: string;
+    image?: null | string;
+    token?: string | null;
   };
 };
 
 export const logToAcc = (email: string, password: string) => {
-  const userReg: LogUserType = {
+  const userReg: userDataType = {
     user: {
       email: email,
       password: password,
@@ -139,15 +151,7 @@ export const clearRegUserDataAction = () => ({
   type: CLEAR_REGISTER_USER_DATA,
 });
 
-type RegUserType = {
-  user: {
-    username: string;
-    email: string;
-    password: string;
-  };
-};
-
-export const registrationUser = (data: RegUserType) => {
+export const registrationUser = (data: userDataType) => {
   return (dispatch: Dispatch) => {
     dispatch(registrationUserRequestAction());
 
@@ -175,6 +179,56 @@ export const registrationUser = (data: RegUserType) => {
       })
       .catch((error) => {
         dispatch(registrationUserFailureAction(error.message));
+      });
+  };
+};
+
+export const changeUserDataRequestAction = () => ({
+  type: CHANGE_USER_DATA_REQUEST,
+});
+
+export const changeUserDataSuccessAction = (data: unknown) => ({
+  type: CHANGE_USER_DATA_SUCCESS,
+  payload: data,
+});
+
+export const changeUserDataFailureAction = (error: string | object) => ({
+  type: CHANGE_USER_DATA_FAILURE,
+  payload: error,
+});
+
+export const changeUserData = (data: userDataType) => {
+  return (dispatch: Dispatch) => {
+    dispatch(changeUserDataRequestAction());
+
+    fetch("https://blog.kata.academy/api/user", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${data.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          if (
+            response.status === 401 ||
+            response.status === 404 ||
+            response.status === 422
+          ) {
+            return response.json().then((errorData) => {
+              dispatch(changeUserDataFailureAction(errorData));
+            });
+          }
+          throw new Error("Network response was not ok");
+        } else {
+          return response.json().then((responseData) => {
+            dispatch(changeUserDataSuccessAction(responseData));
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch(changeUserDataFailureAction(error.message));
       });
   };
 };

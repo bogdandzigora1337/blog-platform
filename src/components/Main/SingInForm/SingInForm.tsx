@@ -73,6 +73,12 @@ export const SingInForm: React.FC = () => {
                 value: /^\S+@\S+$/i,
                 message: "The email address must contain the @ symbol",
               },
+              validate: (value) => {
+                if (!/^[a-z0-9.@]+$/.test(value)) {
+                  return "Email should be in lowercase";
+                }
+                return true;
+              },
             })}
           />
           {errors?.email ? (
@@ -92,7 +98,7 @@ export const SingInForm: React.FC = () => {
           <p>Password</p>
           <input
             className={errors?.email || errorType ? cl["input-error"] : ""}
-            type="text"
+            type="password"
             placeholder="Password"
             {...register("password", {
               required: "This field is required",

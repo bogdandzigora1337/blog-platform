@@ -38,13 +38,17 @@ export const UserProfileHeader: React.FC = () => {
         }}
       >
         Create article
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4581/4581800.png"
+          className={cl["header__btn--create-article__icon"]}
+        ></img>
       </Button>
+      <Link to="/profile" className={cl["header__user-profile__link"]}>
+        <div className={cl["header__user-profile__data"]}>
+          <h6 className={cl["header__user-profile__data__username"]}>
+            {logInUserDetails?.username}
+          </h6>
 
-      <div className={cl["header__user-profile__data"]}>
-        <h6 className={cl["header__user-profile__data__username"]}>
-          {logInUserDetails?.username}
-        </h6>
-        <Link to="/profile">
           <img
             className={cl["header__user-profile__data__image"]}
             src={
@@ -53,8 +57,8 @@ export const UserProfileHeader: React.FC = () => {
             }
             alt="no-image"
           />
-        </Link>
-      </div>
+        </div>
+      </Link>
 
       <Button
         className={cl["header__btn--log-out"]}
@@ -65,6 +69,10 @@ export const UserProfileHeader: React.FC = () => {
         onClick={handleClick}
       >
         Log Out
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/61/61208.png"
+          className={cl["header__btn--log-out__icon"]}
+        ></img>
       </Button>
     </div>
   );
