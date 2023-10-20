@@ -5,7 +5,6 @@ import cl from "./UserProfileHeader.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction } from "../../../redux/actions";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 
 type LogInUserDetailsType = {
   logToAccountReducer: {
@@ -17,11 +16,9 @@ type LogInUserDetailsType = {
 
 export const UserProfileHeader: React.FC = () => {
   const dispatch = useDispatch<any>();
-  const history = useHistory();
 
   const handleClick = () => {
     dispatch(logOutAction());
-    history.push("/articles");
   };
 
   const logInUserDetails = useSelector(

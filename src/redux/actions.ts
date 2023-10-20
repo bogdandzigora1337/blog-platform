@@ -243,7 +243,7 @@ type createArticleDataType = {
       title: string;
       description: string;
       body: string;
-      tags: string[];
+      tagList: string[] | [];
     };
   };
 };
@@ -258,7 +258,7 @@ export const createArticleSuccessAction = (data: unknown) => ({
 });
 
 export const createArticleFailureAction = (error: string | object) => ({
-  type: CHANGE_USER_DATA_FAILURE,
+  type: CREATE_ARTICLES_FAILURE,
   payload: error,
 });
 

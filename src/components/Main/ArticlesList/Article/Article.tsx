@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import Markdown from "react-markdown";
 
 import { format } from "date-fns";
 import uniqId from "uniqid";
+import { Button } from "antd";
 
 import cl from "./Article.module.scss";
 
@@ -36,11 +35,21 @@ export type RootState = {
 
 type ArticleDataType = RootState["articlesReducer"]["data"]["articles"][0];
 
+type UsernameType = {
+  logToAccountReducer: {
+    data: {
+      user?: {
+        username: string;
+      };
+    };
+  };
+};
+
 const truncateText = (text: string, sumSymbol: number): string => {
-  if (text.length > sumSymbol) {
+  if (typeof text === "string" && text.length > sumSymbol) {
     return (text.slice(0, sumSymbol) + "...").trim();
   }
-  return text.trim();
+  return text;
 };
 
 export const ArticlesData: React.FC = () => {
@@ -83,6 +92,12 @@ const ArticleHeader = ({ item }: { item: ArticleDataType }) => {
 };
 
 const ArticleHeaderRightContent = ({ item }: { item: ArticleDataType }) => {
+  const usernameActive = useSelector(
+    (state: UsernameType) => state.logToAccountReducer.data?.user?.username
+  );
+
+  let isUserArticle: boolean = usernameActive === item.author.username;
+
   return (
     <div className={cl["articles-list__item__header__right-content"]}>
       <div
@@ -93,7 +108,9 @@ const ArticleHeaderRightContent = ({ item }: { item: ArticleDataType }) => {
             cl["articles-list__item__header__right-content__username-author"]
           }
         >
-          {item.author.username}
+          {isUserArticle
+            ? `${item.author.username} (You)`
+            : item.author.username}
         </h6>
         <p
           className={
@@ -129,12 +146,16 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
       </div>
       <div className={cl["articles-list__item__header__left-content__tags"]}>
         {!!item.tagList.length ? (
-          item.tagList.map((tag) => (
-            <span key={uniqId()}>{truncateText(tag, 10)}</span>
-          ))
+          item.tagList.map((tag) => {
+            return tag && !!tag.length ? (
+              <span key={uniqId()}>{truncateText(tag, 10)}</span>
+            ) : (
+              <span key={uniqId()}>no tags</span>
+            );
+          })
         ) : (
           <>
-            <span>no tags</span>
+            <span key={uniqId()}>no tags</span>
           </>
         )}
       </div>
@@ -143,9 +164,28 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
 };
 
 const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
+  const usernameActive = useSelector(
+    (state: UsernameType) => state.logToAccountReducer.data?.user?.username
+  );
+  let isUserArticle: boolean = usernameActive === item.author.username;
+
   return (
     <div className={cl["articles-list__item__description"]}>
-      {item.description}
+      <p className={cl["articles-list__item__description__text"]}>
+        {item.description}
+      </p>
+      {isUserArticle && (
+        <div className={cl["articles-list__item__description__buttons"]}>
+          <Button>Delete</Button>
+
+          <Link
+            to={`/articles/${item.slug}/edit`}
+            className={cl["articles-list__item__header__left-content__title"]}
+          >
+            <Button>Edit</Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

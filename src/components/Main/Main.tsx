@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import cl from "./Main.module.scss";
@@ -19,9 +19,19 @@ type HasErrorType = {
   };
 };
 
+type IsAuthenticatedType = {
+  logToAccountReducer: {
+    data: object | null;
+  };
+};
+
 const Main: React.FC = () => {
   const hasError = useSelector(
     (state: HasErrorType) => state.articlesReducer.error
+  );
+
+  const isAuthenticated = useSelector(
+    (state: IsAuthenticatedType) => !!state.logToAccountReducer.data
   );
 
   return (
@@ -29,10 +39,18 @@ const Main: React.FC = () => {
       <Route path={"/profile"} render={() => <ProfileEditingForm />} />
       <Route path={"/sing-in"} render={() => <SingInForm />} />
       <Route path={"/sing-up"} render={() => <SingUpForm />} />
-      <Route path={"/new-article"} render={() => <ArticlesCreating />}></Route>
+      <Route path={"/new-article"}>
+        {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
+      </Route>
+
       {!hasError ? (
         <>
-          <Route path="/articles/:slug" render={() => <ArticleExpanded />} />
+          <Route path="/articles/:slug/edit" component={ArticlesCreating} />
+          <Route
+            exact={true}
+            path="/articles/:slug"
+            component={ArticleExpanded}
+          />
 
           <Route
             exact={true}

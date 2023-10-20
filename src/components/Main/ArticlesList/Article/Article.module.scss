@@ -72,6 +72,7 @@
 
       &__container {
         display: flex;
+        align-items: start;
       }
 
       &__title {
@@ -87,7 +88,8 @@
 
       &__likes {
         display: flex;
-        align-items: center;
+        height: 100%;
+        padding-top: 5px;
 
         div {
           height: 1rem;
@@ -100,13 +102,22 @@
   }
 
   &__description {
-    margin-left: 1.19rem;
-    color: var(--text-color, rgba(0, 0, 0, 0.75));
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.375rem;
-    height: 2.8125rem;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+
+    &__text {
+      margin-left: 1.19rem;
+      color: var(--text-color, rgba(0, 0, 0, 0.75));
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.375rem;
+      height: 2.8125rem;
+      overflow: hidden;
+    }
+
+    &__buttons {
+      display: flex;
+    }
   }
 }
