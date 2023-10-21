@@ -2,6 +2,7 @@ import React from "react";
 
 import { useForm, useFieldArray } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
@@ -22,7 +23,7 @@ type Tag = {
   name: string;
 };
 
-type UserTokenType = {
+export type UserTokenType = {
   logToAccountReducer: {
     data: {
       user: {
@@ -32,21 +33,49 @@ type UserTokenType = {
   };
 };
 
-export const ArticlesCreating: React.FC = () => {
-  const location = useLocation();
+type ArticleType = {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[] | [];
+};
 
+type currentArticlesType = {
+  articlesReducer: {
+    data: {
+      articles: ArticleType[];
+    };
+  };
+};
+
+export const ArticlesCreating: React.FC = () => {
+  const dispatch = useDispatch<any>();
+  const location = useLocation();
   const isNewArticlePage: boolean = location.pathname === "/new-article";
+
+  const pathParts = location.pathname.split("/");
+  const currentSlug = pathParts[pathParts.length - 2];
+
+  const currentArticles = useSelector(
+    (state: currentArticlesType) => state.articlesReducer.data.articles
+  );
+
+  const currentArticle: ArticleType | undefined = currentArticles.find(
+    (elem) => elem.slug === currentSlug
+  );
 
   const userToken = useSelector(
     (state: UserTokenType) => state.logToAccountReducer.data.user.token
   );
-  const dispatch = useDispatch<any>();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
+    clearErrors,
   } = useForm<FormData>({ mode: "onBlur" });
 
   const { fields, append, prepend, remove } = useFieldArray<FormData>({
@@ -59,12 +88,33 @@ export const ArticlesCreating: React.FC = () => {
 
     const wrapperData = {
       token: userToken,
+      slug: currentSlug,
       data: {
         article: { ...data, tagList: arrayTags },
       },
     };
-    dispatch(createArticle(wrapperData));
+
+    dispatch(createArticle(wrapperData, isNewArticlePage ? "POST" : "PUT"));
   };
+
+  useEffect(() => {
+    if (isNewArticlePage) {
+      setValue("title", "");
+      setValue("description", "");
+      setValue("body", "");
+      clearErrors("tagList");
+      remove();
+    } else {
+      setValue("title", currentArticle?.title || "");
+      setValue("description", currentArticle?.description || "");
+      setValue("body", currentArticle?.body || "");
+
+      remove();
+      (currentArticle?.tagList || []).forEach((tag) => {
+        append({ name: tag });
+      });
+    }
+  }, [isNewArticlePage, currentArticle, setValue, append]);
 
   return (
     <div className={cl["article-creating"]}>
@@ -120,7 +170,7 @@ export const ArticlesCreating: React.FC = () => {
             {...register("body", {
               required: "This field is required",
               minLength: { value: 10, message: "Minimum 10 characters" },
-              maxLength: { value: 60, message: "Maximum 60 characters" },
+              maxLength: { value: 5000, message: "Maximum 5000 characters" },
             })}
             placeholder="Text"
           />

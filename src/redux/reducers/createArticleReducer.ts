@@ -2,6 +2,7 @@ import {
   CREATE_ARTICLES_FAILURE,
   CREATE_ARTICLES_REQUEST,
   CREATE_ARTICLES_SUCCESS,
+  ARTICLE_DELETE_SUCCESS,
 } from "../types";
 
 interface IuserState {
@@ -19,8 +20,8 @@ const initialState: IuserState = {
 type ArticleAction =
   | { type: typeof CREATE_ARTICLES_REQUEST }
   | { type: typeof CREATE_ARTICLES_SUCCESS; payload: object }
-  | { type: typeof CREATE_ARTICLES_FAILURE; payload: string };
-
+  | { type: typeof CREATE_ARTICLES_FAILURE; payload: string }
+  | { type: typeof ARTICLE_DELETE_SUCCESS };
 export const createArticleReducer = (
   state = initialState,
   action: ArticleAction
@@ -44,6 +45,14 @@ export const createArticleReducer = (
         ...state,
         error: action.payload,
         loader: false,
+      };
+
+    case ARTICLE_DELETE_SUCCESS:
+      return {
+        ...state,
+        data: null,
+        loader: false,
+        error: null,
       };
 
     default:

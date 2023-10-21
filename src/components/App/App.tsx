@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getArticles } from "../../redux/actions";
 
@@ -9,11 +9,20 @@ import cl from "./App.module.scss";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 
+type CurrentPageType = {
+  articlesReducer: {
+    currentPage: number;
+  };
+};
+
 const App: React.FC = () => {
   const dispatch = useDispatch<any>();
+  const currentPage = useSelector(
+    (state: CurrentPageType) => state.articlesReducer.currentPage
+  );
 
   useEffect(() => {
-    dispatch(getArticles());
+    dispatch(getArticles(5, 5 * currentPage - 5));
   }, [dispatch]);
 
   return (

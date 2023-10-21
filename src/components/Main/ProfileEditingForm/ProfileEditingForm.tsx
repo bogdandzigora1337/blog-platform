@@ -52,7 +52,8 @@ type EditingErrorType = {
           };
         }
       | null
-      | boolean;
+      | boolean
+      | string;
   };
 };
 
@@ -107,13 +108,17 @@ export const ProfileEditingForm: React.FC = () => {
     dispatch(changeUserData(wrapperData));
   };
 
+  console.log(editingError);
+
   const isAnyFieldFilled = Object.values(watch()).some((elem) => elem);
 
   return (
     <div className={cl["edit-profile"]}>
       <h1 className={cl["edit-profile__title"]}>Edit Profile</h1>
       {userToken ? (
-        editingError === false ? (
+        typeof editingError === "string" ? (
+          <h1>{editingError}</h1>
+        ) : editingError === false ? (
           <div className={cl["success-notification"]}>
             <p>
               <span>{svg}</span> Data has been successfully updated.

@@ -19,6 +19,7 @@ import {
   CREATE_ARTICLES_FAILURE,
   CREATE_ARTICLES_REQUEST,
   CREATE_ARTICLES_SUCCESS,
+  ARTICLE_DELETE_SUCCESS,
 } from "./types";
 
 export const clearChangeUserDataErr = () => ({
@@ -112,7 +113,7 @@ export const currentArticlesPage = (page: number) => ({
   payload: page,
 });
 
-export const getArticles = (numArticles: number = 5, offset: number = 0) => {
+export const getArticles = (numArticles: number = 5, offset: number = 1) => {
   return (dispatch: Dispatch) => {
     dispatch(getArticlesRequest());
 
@@ -238,6 +239,7 @@ export const changeUserData = (data: userDataType) => {
 
 type createArticleDataType = {
   token: string | null;
+  slug?: string;
   data: {
     article: {
       title: string;
@@ -262,18 +264,21 @@ export const createArticleFailureAction = (error: string | object) => ({
   payload: error,
 });
 
-export const createArticle = (data: createArticleDataType) => {
+export const createArticle = (data: createArticleDataType, method: string) => {
   return (dispatch: Dispatch) => {
     dispatch(createArticleRequestAction());
 
-    fetch("https://blog.kata.academy/api/articles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${data.token}`,
-      },
-      body: JSON.stringify(data.data),
-    })
+    fetch(
+      `https://blog.kata.academy/api/articles/${data.slug ? data.slug : ""}`,
+      {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${data.token}`,
+        },
+        body: JSON.stringify(data.data),
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           if (response.status === 422) {
@@ -291,6 +296,37 @@ export const createArticle = (data: createArticleDataType) => {
       })
       .catch((error) => {
         dispatch(createArticleFailureAction(error.message));
+      });
+  };
+};
+
+export const articleDeleteAction = () => ({
+  type: ARTICLE_DELETE_SUCCESS,
+});
+
+export const articleDelete = (token: string, slug: string) => {
+  return (dispatch: Dispatch) => {
+    dispatch(createArticleRequestAction());
+
+    fetch(`https://blog.kata.academy/api/articles/${slug}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        } else {
+          return response.json();
+        }
+      })
+      .then((responseData) => {
+        dispatch(articleDeleteAction());
+      })
+      .catch((error) => {
+        return error;
       });
   };
 };

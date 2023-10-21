@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 
 import { format } from "date-fns";
 import uniqId from "uniqid";
-import { Button } from "antd";
+import { Button, Popconfirm, message } from "antd";
+import useMessage from "antd/es/message/useMessage";
 
 import cl from "./Article.module.scss";
 
 import { IconLikes } from "./IconLikes";
+import { UserTokenType } from "../../CreatingArticles/CreatingArticles";
+import { articleDelete } from "../../../../redux/actions";
+import { useDispatch } from "react-redux";
+import { getArticles } from "../../../../redux/actions";
 
 export type RootState = {
   articlesReducer: {
@@ -42,6 +47,12 @@ type UsernameType = {
         username: string;
       };
     };
+  };
+};
+
+type CurrentPageType = {
+  articlesReducer: {
+    currentPage: number;
   };
 };
 
@@ -164,28 +175,54 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
 };
 
 const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
+  const dispatch = useDispatch<any>();
+
+  const currentPage = useSelector(
+    (state: CurrentPageType) => state.articlesReducer.currentPage
+  );
+
   const usernameActive = useSelector(
     (state: UsernameType) => state.logToAccountReducer.data?.user?.username
   );
   let isUserArticle: boolean = usernameActive === item.author.username;
 
-  return (
-    <div className={cl["articles-list__item__description"]}>
-      <p className={cl["articles-list__item__description__text"]}>
-        {item.description}
-      </p>
-      {isUserArticle && (
-        <div className={cl["articles-list__item__description__buttons"]}>
-          <Button>Delete</Button>
+  const userToken = useSelector(
+    (state: UserTokenType) => state.logToAccountReducer.data?.user.token
+  );
 
-          <Link
-            to={`/articles/${item.slug}/edit`}
-            className={cl["articles-list__item__header__left-content__title"]}
-          >
-            <Button>Edit</Button>
-          </Link>
-        </div>
-      )}
-    </div>
+  return (
+    <>
+      <div className={cl["articles-list__item__description"]}>
+        <p className={cl["articles-list__item__description__text"]}>
+          {item.description}
+        </p>
+        {isUserArticle && (
+          <div className={cl["articles-list__item__description__buttons"]}>
+            <Popconfirm
+              placement="rightTop"
+              title={"text"}
+              description={"Are you sure to delete this article?"}
+              onConfirm={() => {
+                dispatch(articleDelete(userToken, item.slug));
+                setTimeout(() => {
+                  dispatch(getArticles(5, 5 * currentPage - 5));
+                }, 300);
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button>Delete</Button>
+            </Popconfirm>
+
+            <Link
+              to={`/articles/${item.slug}/edit`}
+              className={cl["articles-list__item__header__left-content__title"]}
+            >
+              <Button>Edit</Button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
