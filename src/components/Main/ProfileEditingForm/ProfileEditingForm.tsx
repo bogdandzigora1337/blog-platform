@@ -108,8 +108,6 @@ export const ProfileEditingForm: React.FC = () => {
     dispatch(changeUserData(wrapperData));
   };
 
-  console.log(editingError);
-
   const isAnyFieldFilled = Object.values(watch()).some((elem) => elem);
 
   return (

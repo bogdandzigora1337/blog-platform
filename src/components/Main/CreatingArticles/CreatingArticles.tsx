@@ -3,14 +3,17 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Button, message } from "antd";
+import { useHistory } from "react-router-dom";
+import { NoticeType } from "antd/es/message/interface";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "antd";
-import uniqId from "uniqid";
 
 import cl from "./CreatingArticles.module.scss";
 
 import { createArticle } from "../../../redux/actions";
+import { getArticles } from "../../../redux/actions";
+import { currentArticlesPage } from "../../../redux/actions";
 
 type FormData = {
   title: string;
@@ -27,7 +30,7 @@ export type UserTokenType = {
   logToAccountReducer: {
     data: {
       user: {
-        token: string;
+        token: string | null;
       };
     };
   };
@@ -49,9 +52,26 @@ type currentArticlesType = {
   };
 };
 
+type CurrentPageType = {
+  articlesReducer: {
+    currentPage: number;
+  };
+};
+
 export const ArticlesCreating: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const creationMessage = (messageType: NoticeType) => {
+    messageApi.open({
+      type: messageType,
+      content: "This is a success message",
+    });
+  };
+
   const dispatch = useDispatch<any>();
   const location = useLocation();
+  const history = useHistory();
+
   const isNewArticlePage: boolean = location.pathname === "/new-article";
 
   const pathParts = location.pathname.split("/");
@@ -66,24 +86,29 @@ export const ArticlesCreating: React.FC = () => {
   );
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data.user.token
+    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
   );
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
     setValue,
     clearErrors,
-  } = useForm<FormData>({ mode: "onBlur" });
+    reset,
+  } = useForm<FormData>({ mode: "onChange" });
 
-  const { fields, append, prepend, remove } = useFieldArray<FormData>({
+  const { fields, append, remove } = useFieldArray<FormData>({
     name: "tagList",
     control,
   });
 
-  const onSubmit = (data: FormData) => {
+  const currentPage = useSelector(
+    (state: CurrentPageType) => state.articlesReducer.currentPage
+  );
+
+  const onSubmit = async (data: FormData) => {
     const arrayTags = data.tagList ? data.tagList.map((elem) => elem.name) : [];
 
     const wrapperData = {
@@ -93,8 +118,24 @@ export const ArticlesCreating: React.FC = () => {
         article: { ...data, tagList: arrayTags },
       },
     };
-
-    dispatch(createArticle(wrapperData, isNewArticlePage ? "POST" : "PUT"));
+    dispatch(
+      createArticle(wrapperData, isNewArticlePage ? "POST" : "PUT")
+    ).then((data: unknown) => {
+      if (typeof data === "undefined") {
+        creationMessage("error");
+      } else {
+        creationMessage("success");
+        if (isNewArticlePage) {
+          dispatch(currentArticlesPage(1));
+          dispatch(getArticles(5, 0));
+          setTimeout(() => {
+            history.push("/articles");
+          }, 1000);
+        } else {
+          dispatch(getArticles(5, 5 * currentPage - 5));
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -110,14 +151,16 @@ export const ArticlesCreating: React.FC = () => {
       setValue("body", currentArticle?.body || "");
 
       remove();
+
       (currentArticle?.tagList || []).forEach((tag) => {
         append({ name: tag });
       });
     }
-  }, [isNewArticlePage, currentArticle, setValue, append]);
+  }, [isNewArticlePage, currentArticle, setValue, append, remove, clearErrors]);
 
   return (
     <div className={cl["article-creating"]}>
+      {contextHolder}
       <h1 className={cl["article-creating__title"]}>
         {isNewArticlePage ? "Create new article" : "Edit article"}
       </h1>
@@ -170,7 +213,7 @@ export const ArticlesCreating: React.FC = () => {
             {...register("body", {
               required: "This field is required",
               minLength: { value: 10, message: "Minimum 10 characters" },
-              maxLength: { value: 5000, message: "Maximum 5000 characters" },
+              maxLength: { value: 7000, message: "Maximum 5000 characters" },
             })}
             placeholder="Text"
           />
@@ -194,7 +237,7 @@ export const ArticlesCreating: React.FC = () => {
             >
               {fields.map((tag, index) => (
                 <div
-                  key={uniqId()}
+                  key={index}
                   className={cl["article-creating__form__item__tags__input"]}
                 >
                   <input
@@ -249,6 +292,7 @@ export const ArticlesCreating: React.FC = () => {
           className={cl["article-creating__form__send"]}
           type="submit"
           value={"Send"}
+          disabled={!isValid}
         />
       </form>
     </div>

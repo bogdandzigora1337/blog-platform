@@ -20,7 +20,15 @@ import {
   CREATE_ARTICLES_REQUEST,
   CREATE_ARTICLES_SUCCESS,
   ARTICLE_DELETE_SUCCESS,
+  LIKE_ARTICLE_FAILURE,
+  LIKE_ARTICLE_REQUEST,
+  LIKE_ARTICLE_SUCCESS,
+  UNLIKE_ARTICLE_FAILURE,
+  UNLIKE_ARTICLE_REQUEST,
+  UNLIKE_ARTICLE_SUCCESS,
 } from "./types";
+
+import { store } from "../index";
 
 export const clearChangeUserDataErr = () => ({
   type: CLEAR_CHANGE_USER_DATA_ERROR,
@@ -113,13 +121,26 @@ export const currentArticlesPage = (page: number) => ({
   payload: page,
 });
 
-export const getArticles = (numArticles: number = 5, offset: number = 1) => {
+export const getArticles = (
+  numArticles: number = 5,
+  offset: number = 1,
+  userToken?: string
+) => {
   return (dispatch: Dispatch) => {
     dispatch(getArticlesRequest());
 
-    fetch(
-      `https://blog.kata.academy/api/articles?limit=${numArticles}&offset=${offset}`
-    )
+    const url = `https://blog.kata.academy/api/articles?limit=${numArticles}&offset=${offset}`;
+    const options: RequestInit | undefined = userToken
+      ? {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${userToken}`,
+          },
+        }
+      : undefined;
+
+    fetch(url, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -264,39 +285,80 @@ export const createArticleFailureAction = (error: string | object) => ({
   payload: error,
 });
 
+// export const createArticle = (
+//   data: createArticleDataType,
+//   method: string
+// ): any => {
+//   return (dispatch: Dispatch) => {
+//     dispatch(createArticleRequestAction());
+
+//     fetch(
+//       `https://blog.kata.academy/api/article/${data.slug ? data.slug : ""}`,
+//       {
+//         method: method,
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Token ${data.token}`,
+//         },
+//         body: JSON.stringify(data.data),
+//       }
+//     )
+//       .then((response) => {
+//         if (!response.ok) {
+//           if (response.status === 422) {
+//             return response.json().then((errorData) => {
+//               dispatch(createArticleFailureAction(errorData));
+//               throw errorData;
+//             });
+//           }
+//           throw new Error("Network response was not ok");
+//         } else {
+//           return response.json();
+//         }
+//       })
+//       .then((responseData) => {
+//         dispatch(createArticleSuccessAction(responseData));
+//         return { status: "success", data: responseData };
+//       })
+//       .catch((error) => {
+//         dispatch(createArticleFailureAction(error.message));
+//         return { status: "error", error: error };
+//       });
+//   };
+// };
+
 export const createArticle = (data: createArticleDataType, method: string) => {
-  return (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     dispatch(createArticleRequestAction());
 
-    fetch(
-      `https://blog.kata.academy/api/articles/${data.slug ? data.slug : ""}`,
-      {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${data.token}`,
-        },
-        body: JSON.stringify(data.data),
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 422) {
-            return response.json().then((errorData) => {
-              dispatch(createArticleFailureAction(errorData));
-            });
-          }
-          throw new Error("Network response was not ok");
-        } else {
-          return response.json();
+    try {
+      const response = await fetch(
+        `https://blog.kata.academy/api/articles/${data.slug ? data.slug : ""}`,
+        {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${data.token}`,
+          },
+          body: JSON.stringify(data.data),
         }
-      })
-      .then((responseData) => {
+      );
+
+      if (!response.ok) {
+        if (response.status === 422) {
+          const errorData = await response.json();
+          dispatch(createArticleFailureAction(errorData));
+          throw errorData;
+        }
+        throw new Error("Network response was not ok");
+      } else {
+        const responseData = await response.json();
         dispatch(createArticleSuccessAction(responseData));
-      })
-      .catch((error) => {
-        dispatch(createArticleFailureAction(error.message));
-      });
+        return { status: "success", data: responseData };
+      }
+    } catch (error: any) {
+      dispatch(createArticleFailureAction(error.message));
+    }
   };
 };
 
@@ -328,5 +390,83 @@ export const articleDelete = (token: string, slug: string) => {
       .catch((error) => {
         return error;
       });
+  };
+};
+
+const likeArticleRequestAction = () => ({
+  type: "LIKE_ARTICLE_REQUEST",
+});
+
+const likeArticleSuccessAction = (data: unknown) => ({
+  type: "LIKE_ARTICLE_SUCCESS",
+  payload: data,
+});
+
+const likeArticleFailureAction = (error: string | object) => ({
+  type: "LIKE_ARTICLE_FAILURE",
+  payload: error,
+});
+
+const unlikeArticleRequestAction = () => ({
+  type: "UNLIKE_ARTICLE_REQUEST",
+});
+
+const unlikeArticleSuccessAction = (data: unknown) => ({
+  type: "UNLIKE_ARTICLE_SUCCESS",
+  payload: data,
+});
+
+const unlikeArticleFailureAction = (error: string | object) => ({
+  type: "UNLIKE_ARTICLE_FAILURE",
+  payload: error,
+});
+
+export const toggleArticleLikeAPI = (
+  slug: string,
+  token: string,
+  like: boolean
+) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(like ? likeArticleRequestAction() : unlikeArticleRequestAction());
+
+    try {
+      const response = await fetch(
+        `https://blog.kata.academy/api/articles/${slug}/favorite`,
+        {
+          method: like ? "POST" : "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 422) {
+          const errorData = await response.json();
+          dispatch(
+            like
+              ? likeArticleFailureAction(errorData)
+              : unlikeArticleFailureAction(errorData)
+          );
+          throw errorData;
+        }
+        throw new Error("Network response was not ok");
+      } else {
+        const responseData = await response.json();
+        dispatch(
+          like
+            ? likeArticleSuccessAction(responseData)
+            : unlikeArticleSuccessAction(responseData)
+        );
+        return { status: "success", data: responseData };
+      }
+    } catch (error: any) {
+      dispatch(
+        like
+          ? likeArticleFailureAction(error.message)
+          : unlikeArticleFailureAction(error.message)
+      );
+    }
   };
 };

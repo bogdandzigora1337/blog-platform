@@ -3,16 +3,29 @@ import { Link } from "react-router-dom";
 
 import { format } from "date-fns";
 import uniqId from "uniqid";
-import { Button, Popconfirm, message } from "antd";
-import useMessage from "antd/es/message/useMessage";
+import { Button, Popconfirm } from "antd";
 
 import cl from "./Article.module.scss";
 
 import { IconLikes } from "./IconLikes";
-import { UserTokenType } from "../../CreatingArticles/CreatingArticles";
+// import { UserTokenType } from "../../CreatingArticles/CreatingArticles";
 import { articleDelete } from "../../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { getArticles } from "../../../../redux/actions";
+import { toggleArticleLikeAPI } from "../../../../redux/actions";
+
+type UserTokenType = {
+  logToAccountReducer: {
+    data: {
+      user: {
+        token?: string;
+        image?: string;
+        email?: string;
+        username?: string;
+      } | null;
+    } | null;
+  };
+};
 
 export type RootState = {
   articlesReducer: {
@@ -69,7 +82,7 @@ export const ArticlesData: React.FC = () => {
   );
 
   const getArticle =
-    articles &&
+    !!articles.length &&
     articles.map((item) => {
       return <Article item={item} key={uniqId()} />;
     });
@@ -138,6 +151,12 @@ const ArticleHeaderRightContent = ({ item }: { item: ArticleDataType }) => {
 };
 
 const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
+  const dispatch = useDispatch<any>();
+
+  const userToken = useSelector(
+    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+  );
+
   return (
     <div className={cl["articles-list__item__header__left-content"]}>
       <div
@@ -151,7 +170,20 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
         </Link>
 
         <div className={cl["articles-list__item__header__left-content__likes"]}>
-          {<div>{<IconLikes />}</div>}
+          {
+            <div
+              onClick={() => {
+                console.log(item.favorited);
+
+                userToken &&
+                  dispatch(
+                    toggleArticleLikeAPI(item.slug, userToken, !item.favorited)
+                  );
+              }}
+            >
+              {<IconLikes />}
+            </div>
+          }
           {<span>{item.favoritesCount}</span>}
         </div>
       </div>
@@ -187,7 +219,7 @@ const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
   let isUserArticle: boolean = usernameActive === item.author.username;
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user.token
+    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
   );
 
   return (
@@ -203,9 +235,9 @@ const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
               title={"text"}
               description={"Are you sure to delete this article?"}
               onConfirm={() => {
-                dispatch(articleDelete(userToken, item.slug));
+                userToken && dispatch(articleDelete(userToken, item.slug));
                 setTimeout(() => {
-                  dispatch(getArticles(5, 5 * currentPage - 5));
+                  dispatch(getArticles(5, 5 * currentPage - 5, userToken));
                 }, 300);
               }}
               okText="Yes"

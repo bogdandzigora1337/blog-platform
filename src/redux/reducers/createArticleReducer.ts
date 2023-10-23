@@ -31,13 +31,13 @@ export const createArticleReducer = (
       return {
         ...state,
         loader: true,
-        error: null,
       };
     case CREATE_ARTICLES_SUCCESS:
       return {
         ...state,
         loader: false,
         data: action.payload,
+        error: null, // !
       };
 
     case CREATE_ARTICLES_FAILURE:

@@ -42,10 +42,11 @@ const Main: React.FC = () => {
       <Route path={"/new-article"}>
         {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
       </Route>
-
+      <Route path="/articles/:slug/edit">
+        {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
+      </Route>
       {!hasError ? (
         <>
-          <Route path="/articles/:slug/edit" component={ArticlesCreating} />
           <Route
             exact={true}
             path="/articles/:slug"

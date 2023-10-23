@@ -15,14 +15,31 @@ type CurrentPageType = {
   };
 };
 
+type UserTokenType = {
+  logToAccountReducer: {
+    data: {
+      user: {
+        token?: string;
+        image?: string;
+        email?: string;
+        username?: string;
+      } | null;
+    } | null;
+  };
+};
+
 const App: React.FC = () => {
   const dispatch = useDispatch<any>();
   const currentPage = useSelector(
     (state: CurrentPageType) => state.articlesReducer.currentPage
   );
 
+  const userToken = useSelector(
+    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+  );
+
   useEffect(() => {
-    dispatch(getArticles(5, 5 * currentPage - 5));
+    dispatch(getArticles(5, 5 * currentPage - 5, userToken));
   }, [dispatch]);
 
   return (
