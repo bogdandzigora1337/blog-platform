@@ -30,7 +30,7 @@ export type UserTokenType = {
   logToAccountReducer: {
     data: {
       user: {
-        token: string | null;
+        token: string | null | undefined;
       };
     };
   };
@@ -127,12 +127,12 @@ export const ArticlesCreating: React.FC = () => {
         creationMessage("success");
         if (isNewArticlePage) {
           dispatch(currentArticlesPage(1));
-          dispatch(getArticles(5, 0));
+          dispatch(getArticles(5, 0, userToken));
           setTimeout(() => {
             history.push("/articles");
           }, 1000);
         } else {
-          dispatch(getArticles(5, 5 * currentPage - 5));
+          dispatch(getArticles(5, 5 * currentPage - 5, userToken));
         }
       }
     });

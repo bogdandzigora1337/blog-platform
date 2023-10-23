@@ -7,7 +7,9 @@ import { Button, Popconfirm } from "antd";
 
 import cl from "./Article.module.scss";
 
-import { IconLikes } from "./IconLikes";
+import { IconLikesActive } from "./IconLikes";
+import { IconLikesNotActive } from "./IconLikes";
+
 // import { UserTokenType } from "../../CreatingArticles/CreatingArticles";
 import { articleDelete } from "../../../../redux/actions";
 import { useDispatch } from "react-redux";
@@ -181,7 +183,11 @@ const ArticleHeaderLeftContent = ({ item }: { item: ArticleDataType }) => {
                   );
               }}
             >
-              {<IconLikes />}
+              {userToken && item.favorited ? (
+                <IconLikesActive />
+              ) : (
+                <IconLikesNotActive />
+              )}
             </div>
           }
           {<span>{item.favoritesCount}</span>}

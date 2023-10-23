@@ -12,6 +12,19 @@ type CurrentPageType = {
   };
 };
 
+type UserTokenType = {
+  logToAccountReducer: {
+    data: {
+      user: {
+        token?: string;
+        image?: string;
+        email?: string;
+        username?: string;
+      } | null;
+    } | null;
+  };
+};
+
 type NumberPagesType = {
   articlesReducer: {
     data: {
@@ -23,6 +36,10 @@ type NumberPagesType = {
 const PaginationArticles: React.FC = () => {
   const currentPage = useSelector(
     (state: CurrentPageType) => state.articlesReducer.currentPage
+  );
+
+  const userToken = useSelector(
+    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
   );
 
   const numberPages = useSelector((state: NumberPagesType) =>
@@ -51,7 +68,7 @@ const PaginationArticles: React.FC = () => {
         showSizeChanger={false}
         onChange={(page) => {
           dispatch(currentArticlesPage(page));
-          dispatch(getArticles(5, 5 * page - 5));
+          dispatch(getArticles(5, 5 * page - 5, userToken));
         }}
       />
     </ConfigProvider>

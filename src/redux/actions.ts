@@ -124,7 +124,7 @@ export const currentArticlesPage = (page: number) => ({
 export const getArticles = (
   numArticles: number = 5,
   offset: number = 1,
-  userToken?: string
+  userToken?: string | null
 ) => {
   return (dispatch: Dispatch) => {
     dispatch(getArticlesRequest());
@@ -259,7 +259,7 @@ export const changeUserData = (data: userDataType) => {
 };
 
 type createArticleDataType = {
-  token: string | null;
+  token: string | null | undefined;
   slug?: string;
   data: {
     article: {
