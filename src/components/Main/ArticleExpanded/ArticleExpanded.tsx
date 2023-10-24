@@ -12,8 +12,9 @@ export const ArticleExpanded: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
   const articles = useSelector(
-    (state: RootState) => state.articlesReducer.data.articles
+    (state: RootState) => state.articlesReducer.data?.articles || []
   );
+
   const article = articles.find((item) => item.slug === slug);
 
   if (!article) {

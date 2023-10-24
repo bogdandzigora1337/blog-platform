@@ -1,22 +1,49 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin header-container {
+  min-height: 80px;
+  width: 100%;
+  max-width: 1140px;
+  padding: 24px;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 .header {
   position: relative;
+  display: flex;
+  justify-content: center;
 
   &__container {
-    min-height: 5rem;
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    @include flex-space-between;
+    @include header-container;
     align-items: center;
-    background: var(--background-color-base, #fff);
+    background: #fff;
   }
 
   &__title {
-    color: var(--heading-color, rgba(0, 0, 0, 0.85));
+    color: rgba(0, 0, 0, 0.85);
     text-decoration: none;
-    margin-left: 1.38rem;
-    font-size: 1rem;
+    font-size: 18px;
+    line-height: 28px;
     font-style: normal;
-    line-height: 1.75rem;
+
+    @media screen and (max-width: 768px) {
+      font-size: 30px;
+    }
 
     :active {
       color: rgb(145, 146, 145);

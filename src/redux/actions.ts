@@ -28,8 +28,6 @@ import {
   UNLIKE_ARTICLE_SUCCESS,
 } from "./types";
 
-import { store } from "../index";
-
 export const clearChangeUserDataErr = () => ({
   type: CLEAR_CHANGE_USER_DATA_ERROR,
 });
@@ -394,30 +392,30 @@ export const articleDelete = (token: string, slug: string) => {
 };
 
 const likeArticleRequestAction = () => ({
-  type: "LIKE_ARTICLE_REQUEST",
+  type: LIKE_ARTICLE_REQUEST,
 });
 
 const likeArticleSuccessAction = (data: unknown) => ({
-  type: "LIKE_ARTICLE_SUCCESS",
+  type: LIKE_ARTICLE_SUCCESS,
   payload: data,
 });
 
 const likeArticleFailureAction = (error: string | object) => ({
-  type: "LIKE_ARTICLE_FAILURE",
+  type: LIKE_ARTICLE_FAILURE,
   payload: error,
 });
 
 const unlikeArticleRequestAction = () => ({
-  type: "UNLIKE_ARTICLE_REQUEST",
+  type: UNLIKE_ARTICLE_REQUEST,
 });
 
 const unlikeArticleSuccessAction = (data: unknown) => ({
-  type: "UNLIKE_ARTICLE_SUCCESS",
+  type: UNLIKE_ARTICLE_SUCCESS,
   payload: data,
 });
 
 const unlikeArticleFailureAction = (error: string | object) => ({
-  type: "UNLIKE_ARTICLE_FAILURE",
+  type: UNLIKE_ARTICLE_FAILURE,
   payload: error,
 });
 

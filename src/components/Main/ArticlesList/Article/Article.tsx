@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 
 import { format } from "date-fns";
 import uniqId from "uniqid";
-import { Button, Popconfirm } from "antd";
+import { Button, Popconfirm, Skeleton } from "antd";
 
 import cl from "./Article.module.scss";
+import "./ArticleAntd.scss";
 
 import { IconLikesActive } from "./IconLikes";
 import { IconLikesNotActive } from "./IconLikes";
@@ -71,6 +72,13 @@ type CurrentPageType = {
   };
 };
 
+type PercentLoadType = {
+  articlesReducer: {
+    percentLoader?: number;
+    loader?: boolean;
+  };
+};
+
 const truncateText = (text: string, sumSymbol: number): string => {
   if (typeof text === "string" && text.length > sumSymbol) {
     return (text.slice(0, sumSymbol) + "...").trim();
@@ -80,14 +88,14 @@ const truncateText = (text: string, sumSymbol: number): string => {
 
 export const ArticlesData: React.FC = () => {
   const articles = useSelector(
-    (state: RootState) => state.articlesReducer.data.articles
+    (state: RootState) => state.articlesReducer.data?.articles
   );
 
-  const getArticle =
-    !!articles.length &&
-    articles.map((item) => {
-      return <Article item={item} key={uniqId()} />;
-    });
+  const getArticle = !!articles
+    ? articles.map((item) => {
+        return <Article item={item} key={uniqId()} />;
+      })
+    : [];
 
   return <>{getArticle}</>;
 };
@@ -99,11 +107,23 @@ export const Article = ({
   item: ArticleDataType;
   children?: React.ReactNode;
 }) => {
+  const isLoading = useSelector(
+    (state: PercentLoadType) => state.articlesReducer.loader
+  );
+
   return (
     <li className={cl["articles-list__item"]}>
-      <ArticleHeader item={item}></ArticleHeader>
-      <ArticleDescription item={item}></ArticleDescription>
-      {children}
+      {isLoading ? (
+        <div className="skeleton-wrapper">
+          <Skeleton active paragraph={{ rows: 2 }} avatar />
+        </div>
+      ) : (
+        <>
+          <ArticleHeader item={item}></ArticleHeader>
+          <ArticleDescription item={item}></ArticleDescription>
+          {children}
+        </>
+      )}
     </li>
   );
 };

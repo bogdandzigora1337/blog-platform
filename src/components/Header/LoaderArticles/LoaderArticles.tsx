@@ -1,29 +1,39 @@
+import React from "react";
 import { Progress } from "antd";
 import { useSelector } from "react-redux";
 
-import cl from "./LoaderArticles.module.scss";
+import styles from "./LoaderArticles.module.scss";
+
+interface LoaderArticlesProps {}
 
 type PercentLoadType = {
   articlesReducer: {
-    percentLoader: number;
+    percentLoader?: number;
+    loader?: boolean;
   };
 };
 
-const LoaderArticles: React.FC = () => {
-  const colorsLoader = { "0%": "#f3f7fa", "100%": "#2196f3" };
+const LoaderArticles: React.FC<LoaderArticlesProps> = () => {
+  const loaderColors = { "0%": "#f3f7fa", "100%": "#2196f3" };
 
+  const isLoading = useSelector(
+    (state: PercentLoadType) => state.articlesReducer.loader
+  );
   const percentLoad = useSelector(
     (state: PercentLoadType) => state.articlesReducer.percentLoader
   );
 
   return (
-    <div className={cl["header__loader"]}>
-      <Progress
-        percent={percentLoad}
-        strokeColor={colorsLoader}
-        showInfo={false}
-        trailColor={"transparent"}
-      />
+    <div className={styles.loader}>
+      {isLoading && (
+        <Progress
+          percent={percentLoad}
+          strokeColor={loaderColors}
+          showInfo={false}
+          status="active"
+          trailColor={"transparent"}
+        />
+      )}
     </div>
   );
 };

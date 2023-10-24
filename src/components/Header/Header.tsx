@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import cl from "./Header.module.scss";
 
@@ -9,8 +9,8 @@ import LoaderArticles from "./LoaderArticles/LoaderArticles";
 import { UserProfileHeader } from "./UserProfileHeader/UserProfileHeader";
 import { currentArticlesPage } from "../../redux/actions";
 import { getArticles } from "../../redux/actions";
+import { AnyAction } from "@reduxjs/toolkit";
 
-import { useDispatch } from "react-redux";
 type UserTokenType = {
   logToAccountReducer: {
     data: {
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
             dispatch(getArticles(5, 0, userToken));
           }}
         >
-          <h1>Realworld Blog</h1>
+          <p>Realworld Blog</p>
         </Link>
         {logInUserDetails ? <UserProfileHeader /> : <AuthProfile />}
       </div>

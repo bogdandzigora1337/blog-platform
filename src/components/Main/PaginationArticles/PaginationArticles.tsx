@@ -43,7 +43,7 @@ const PaginationArticles: React.FC = () => {
   );
 
   const numberPages = useSelector((state: NumberPagesType) =>
-    Math.ceil(state.articlesReducer.data.articlesCount / 5)
+    Math.ceil(state.articlesReducer.data?.articlesCount / 5)
   );
 
   const dispatch = useDispatch<any>();

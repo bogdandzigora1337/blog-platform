@@ -6,18 +6,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOutAction } from "../../../redux/actions";
 import { Link } from "react-router-dom";
 
-type LogInUserDetailsType = {
+interface User {
+  username: string;
+  email: string;
+  token: string;
+  image: string;
+}
+
+interface LogInUserDetailsType {
   logToAccountReducer: {
     data: null | {
-      user: { username: string; email: string; token: string; image: string };
+      user: User;
     };
   };
-};
+}
 
 export const UserProfileHeader: React.FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleLogOut = () => {
     dispatch(logOutAction());
   };
 
@@ -28,22 +35,18 @@ export const UserProfileHeader: React.FC = () => {
   return (
     <div className={cl["header__user-profile"]}>
       <Link
-        to={"/new-article"}
+        to="/new-article"
         className={cl["header__user-profile__link--create-article"]}
       >
-        <Button
-          className={cl["header__btn--create-article"]}
-          style={{
-            borderColor: "1px solid var(--success-color, #52C41A)",
-            color: "var(--success-color, #52C41A)",
-          }}
-        >
-          Create article
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/4581/4581800.png"
-            className={cl["header__btn--create-article__icon"]}
-          ></img>
-        </Button>
+        <CustomButton
+          classBtn="header__btn--create-article"
+          classImg="header__btn--create-article__icon"
+          text="Create article"
+          borderColor="var(--success-color, #52C41A)"
+          color="var(--success-color, #52C41A)"
+          iconSrc="https://cdn-icons-png.flaticon.com/512/4581/4581800.png"
+          alt="Create Article Icon"
+        />
       </Link>
 
       <Link to="/profile" className={cl["header__user-profile__link"]}>
@@ -63,20 +66,52 @@ export const UserProfileHeader: React.FC = () => {
         </div>
       </Link>
 
-      <Button
-        className={cl["header__btn--log-out"]}
-        style={{
-          borderColor: "1px solid var(--success-color, #000000BF)",
-          color: "var(--success-color, #000000BF)",
-        }}
-        onClick={handleClick}
-      >
-        Log Out
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/61/61208.png"
-          className={cl["header__btn--log-out__icon"]}
-        ></img>
-      </Button>
+      <CustomButton
+        classBtn="header__btn--log-out"
+        classImg="header__btn--log-out__icon"
+        text="Log Out"
+        borderColor="var(--success-color, #000000BF)"
+        color="var(--success-color, #000000BF)"
+        iconSrc="https://cdn-icons-png.flaticon.com/512/61/61208.png"
+        alt="Log Out Icon"
+        onClick={handleLogOut}
+      />
     </div>
+  );
+};
+
+interface ButtonProps {
+  text: string;
+  borderColor: string;
+  color?: string;
+  iconSrc?: string;
+  alt?: string;
+  classBtn?: string;
+  classImg?: string;
+  onClick?: () => void;
+}
+
+const CustomButton: React.FC<ButtonProps> = ({
+  text,
+  classBtn,
+  classImg,
+  borderColor,
+  color,
+  iconSrc,
+  alt,
+  onClick,
+}) => {
+  return (
+    <Button
+      className={cl[`${classBtn}`]}
+      style={{
+        borderColor: `1px solid ${borderColor}`,
+        color: color,
+      }}
+      onClick={onClick}
+    >
+      {text}
+      <img src={iconSrc} alt={alt} className={cl[`${classImg}`]} />
+    </Button>
   );
 };

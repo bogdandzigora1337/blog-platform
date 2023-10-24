@@ -1,48 +1,84 @@
+@mixin header-link-styles {
+  text-decoration: none;
+  color: black;
+}
+
+@mixin header-button-styles {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0rem;
+  width: 7.01444rem;
+  height: 1.94363rem;
+  flex-shrink: 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 0;
+    border: none;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    font-size: 0;
+  }
+
+  &__icon {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      object-fit: cover;
+    }
+  }
+}
+
+@mixin header-username-styles {
+  text-decoration: none;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75rem;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
 .header {
   &__user-profile {
     display: flex;
-    margin-right: 1.37rem;
     align-items: center;
+    justify-content: space-between;
 
     @media screen and (max-width: 768px) {
       position: relative;
       width: 10rem;
-      margin-right: 0.1rem;
     }
 
     &__link {
-      text-decoration: none;
-      color: black;
+      @include header-link-styles;
+      margin-right: 1.59rem;
     }
 
     &__link--create-article {
-      text-decoration: none;
-      color: black;
+      @include header-link-styles;
+      margin-right: 1.67rem;
+
       @media screen and (max-width: 768px) {
         display: flex;
+        margin-right: 0.5rem;
       }
     }
 
     &__data {
       display: flex;
       align-items: center;
-      margin-right: 1.69rem;
 
       @media screen and (max-width: 768px) {
-        margin-right: 1.5rem;
       }
 
       &__username {
+        @include header-username-styles;
         margin-right: 0.81rem;
-
-        text-decoration: none;
-        font-size: 1.125rem;
-        font-weight: 400;
-        line-height: 1.75rem;
-
-        @media screen and (max-width: 768px) {
-          display: none;
-        }
       }
 
       &__image {
@@ -64,42 +100,14 @@
   }
 
   &__btn--create-article {
-    width: 7.01444rem;
-    height: 1.94363rem;
-    margin-right: 1.67rem;
-    flex-shrink: 0;
-
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 0rem;
-
-    @media screen and (max-width: 768px) {
-      font-size: 0;
-      border: none;
-      padding: 0;
-      width: 2rem;
-      height: 2rem;
-      font-size: 0;
-      margin-right: 0.5rem;
-    }
-
-    &__icon {
-      display: none;
-      @media screen and (max-width: 768px) {
-        display: block;
-        width: 2rem;
-        height: 2rem;
-        object-fit: cover;
-      }
-    }
+    @include header-button-styles;
   }
 
   &__btn--log-out {
+    @include header-button-styles;
     width: 6.8125rem;
     height: 3.1875rem;
     flex-shrink: 0;
-
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 400;
@@ -110,16 +118,6 @@
       width: 2rem;
       height: 2rem;
       padding: 0;
-    }
-
-    &__icon {
-      display: none;
-      @media screen and (max-width: 768px) {
-        display: block;
-        width: 2rem;
-        height: 2rem;
-        object-fit: cover;
-      }
     }
   }
 }

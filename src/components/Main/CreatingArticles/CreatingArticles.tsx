@@ -78,12 +78,12 @@ export const ArticlesCreating: React.FC = () => {
   const currentSlug = pathParts[pathParts.length - 2];
 
   const currentArticles = useSelector(
-    (state: currentArticlesType) => state.articlesReducer.data.articles
+    (state: currentArticlesType) => state.articlesReducer.data?.articles
   );
 
-  const currentArticle: ArticleType | undefined = currentArticles.find(
-    (elem) => elem.slug === currentSlug
-  );
+  const currentArticle: ArticleType | undefined =
+    currentArticles &&
+    currentArticles.find((elem) => elem.slug === currentSlug);
 
   const userToken = useSelector(
     (state: UserTokenType) => state.logToAccountReducer.data?.user?.token

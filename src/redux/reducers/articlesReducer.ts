@@ -65,7 +65,7 @@ export const articlesReducer = (
       return {
         ...state,
         loader: true,
-        percentLoader: 99.99,
+        percentLoader: 99.6,
       };
     case FETCH_ARTICLES_SUCCESS:
       return {
@@ -93,7 +93,6 @@ export const articlesReducer = (
     case UNLIKE_ARTICLE_REQUEST:
       return {
         ...state,
-        loader: true,
       };
 
     case LIKE_ARTICLE_SUCCESS:
@@ -115,7 +114,6 @@ export const articlesReducer = (
       return {
         ...state,
         data: { ...state.data, articles: updateArticles },
-        loader: false,
       };
     }
 
@@ -123,7 +121,6 @@ export const articlesReducer = (
     case UNLIKE_ARTICLE_FAILURE: {
       return {
         ...state,
-        loader: false,
       };
     }
 

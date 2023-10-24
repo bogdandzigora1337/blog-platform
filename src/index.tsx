@@ -17,6 +17,7 @@ import "./index.css";
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["logToAccountReducer"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
