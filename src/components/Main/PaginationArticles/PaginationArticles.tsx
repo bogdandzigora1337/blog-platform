@@ -48,31 +48,35 @@ const PaginationArticles: React.FC = () => {
 
   const dispatch = useDispatch<any>();
 
-  return numberPages ? (
-    <ConfigProvider
-      theme={{
-        components: {
-          Pagination: {
-            itemActiveBg: "#1890FF",
-          },
-        },
-        token: {
-          colorPrimary: "ffffff",
-        },
-      }}
-    >
-      <Pagination
-        className={cl["main__pagination"]}
-        total={numberPages * 10}
-        current={currentPage}
-        showSizeChanger={false}
-        onChange={(page) => {
-          dispatch(currentArticlesPage(page));
-          dispatch(getArticles(5, 5 * page - 5, userToken));
-        }}
-      />
-    </ConfigProvider>
-  ) : null;
+  return (
+    <div className={cl["pagination-articles"]}>
+      {numberPages ? (
+        <ConfigProvider
+          theme={{
+            components: {
+              Pagination: {
+                itemActiveBg: "#1890FF",
+              },
+            },
+            token: {
+              colorPrimary: "ffffff",
+            },
+          }}
+        >
+          <Pagination
+            className={cl["pagination"]}
+            total={numberPages * 10}
+            current={currentPage}
+            showSizeChanger={false}
+            onChange={(page) => {
+              dispatch(currentArticlesPage(page));
+              dispatch(getArticles(5, 5 * page - 5, userToken));
+            }}
+          />
+        </ConfigProvider>
+      ) : null}
+    </div>
+  );
 };
 
 export default PaginationArticles;

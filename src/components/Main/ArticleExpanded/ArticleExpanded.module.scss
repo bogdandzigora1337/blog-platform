@@ -1,7 +1,11 @@
-.main__articles {
+.article {
   &-expanded {
+    width: 65.49%;
+    max-width: 941px;
     list-style-type: none;
-    width: 58.8125rem;
+    margin: 0 auto;
+    padding-top: 26px;
+    padding-bottom: 26px;
     @media screen and (max-width: 768px) {
       width: 99%;
     }
@@ -13,19 +17,11 @@
     font-style: normal;
     font-weight: 400;
     line-height: 1.75rem;
-    padding: 0.94rem 0.87rem 0.25rem 1.19rem;
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      margin-bottom: 10px;
-    }
+    padding: 0.94rem 0.87rem 2rem 1.19rem;
 
     ol,
     ul {
-      padding-left: 20px;
+      padding-left: 25px;
     }
   }
 }

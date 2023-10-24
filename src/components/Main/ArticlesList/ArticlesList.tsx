@@ -1,3 +1,5 @@
+import React from "react";
+
 import cl from "./ArticlesList.module.scss";
 
 import { ArticlesData } from "./Article/Article";

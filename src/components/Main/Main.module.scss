@@ -1,13 +1,8 @@
 .main {
   position: relative;
 
-  background: var(--Background, #ebeef3);
-  padding-top: 1.62rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 88vh;
+  background: #ebeef3;
+  min-height: 100vh;
 
   &__error-notification {
     position: absolute;
