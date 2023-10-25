@@ -1,12 +1,11 @@
 .article {
   &-expanded {
-    width: 65.49%;
-    max-width: 941px;
+    width: 941px;
     list-style-type: none;
     margin: 0 auto;
     padding-top: 26px;
     padding-bottom: 26px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 965px) {
       width: 99%;
     }
   }

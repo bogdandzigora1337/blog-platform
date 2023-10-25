@@ -1,5 +1,4 @@
 .skeleton-wrapper {
-  border-radius: 4px; /* Скругление углов */
   padding: 20px 20px 0px 20px;
   position: relative;
 }
@@ -7,4 +6,9 @@
 .ant-skeleton-header {
   position: absolute;
   right: 0;
+}
+
+.ant-skeleton-avatar-circle {
+  width: 46px !important;
+  height: 46px !important;
 }

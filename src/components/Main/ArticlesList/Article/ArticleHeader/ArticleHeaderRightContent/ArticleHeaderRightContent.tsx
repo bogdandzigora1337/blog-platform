@@ -1,20 +1,24 @@
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import cl from "./ArticleHeaderRightContent.module.scss";
+import React from "react";
 
-type ArticleDataType = RootState["articlesReducer"]["data"]["articles"][0];
+type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
 
-type UsernameType = {
+type UserDataType = {
   logToAccountReducer: {
     data: {
-      user?: {
-        username: string;
-      };
-    };
+      user: {
+        token?: string;
+        image?: string;
+        email?: string;
+        username?: string;
+      } | null;
+    } | null;
   };
 };
 
-type RootState = {
+type ArticleDataType = {
   articlesReducer: {
     data: {
       articles: {
@@ -38,41 +42,36 @@ type RootState = {
   };
 };
 
-export const ArticleHeaderRightContent = ({
+type ArticleHeaderProps = {
+  item: ArticleType;
+};
+
+export const ArticleHeaderRightContent: React.FC<ArticleHeaderProps> = ({
   item,
-}: {
-  item: ArticleDataType;
 }) => {
   const usernameActive = useSelector(
-    (state: UsernameType) => state.logToAccountReducer.data?.user?.username
+    (state: UserDataType) => state.logToAccountReducer.data?.user?.username
   );
-
   let isUserArticle: boolean = usernameActive === item.author.username;
 
+  const formattedDate = format(new Date(item.createdAt), "MMMM d, yyyy");
+  const authorLabel = isUserArticle
+    ? `${item.author.username} (You)`
+    : item.author.username;
+
   return (
-    <div className={"articles-list__item__header__right-content"}>
-      <div
-        className={cl["articles-list__item__header__right-content__container"]}
-      >
-        <h6
-          className={
-            cl["articles-list__item__header__right-content__username-author"]
-          }
-        >
-          {isUserArticle
-            ? `${item.author.username} (You)`
-            : item.author.username}
+    <div className={cl["article-header__right-content"]}>
+      <div className={cl["article-header__right-content__container"]}>
+        <h6 className={cl["article-header__right-content__username-author"]}>
+          {authorLabel}
         </h6>
-        <p
-          className={
-            cl["articles-list__item__header__right-content__createdAt"]
-          }
-        >
-          {format(new Date(item.createdAt), "MMMM d, yyyy")}
+        <p className={cl["article-header__right-content__created-at"]}>
+          {formattedDate}
         </p>
       </div>
-
-      <img src={item.author.image} alt="no-image" />
+      <div className={cl["article-header__right-content__avatar"]}>
+        <img src={item.author.image} alt="no-image" />
+      </div>
     </div>
   );
 };

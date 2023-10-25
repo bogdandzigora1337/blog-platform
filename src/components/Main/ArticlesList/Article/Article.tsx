@@ -7,35 +7,18 @@ import { Skeleton } from "antd";
 import cl from "./Article.module.scss";
 import "./ArticleAntd.scss";
 
-import { ArticleHeader } from "./ArticleHeader/ArticleHeader";
-import { ArticleDescription } from "./ArticleDescription/ArticleDescription";
+import ArticleHeader from "./ArticleHeader/ArticleHeader";
+import ArticleDescription from "./ArticleDescription/ArticleDescription";
 
 type RootState = {
   articlesReducer: {
     data: {
-      articles: ArticleData[];
+      articles: ArticleDataType[];
     };
   };
 };
 
 type ArticleDataType = {
-  author: {
-    username: string;
-    image: string;
-    following: boolean;
-  };
-  body: string;
-  createdAt: string;
-  description: string;
-  favorited: boolean;
-  favoritesCount: number;
-  slug: string;
-  tagList: string[];
-  title: string;
-  updatedAt: string;
-};
-
-type ArticleData = {
   author: {
     username: string;
     image: string;
@@ -59,8 +42,8 @@ type PercentLoadType = {
   };
 };
 
-type ArticleProps = {
-  item: ArticleData;
+type ArticlePropsType = {
+  item: ArticleDataType;
   children?: React.ReactNode;
 };
 
@@ -71,7 +54,7 @@ export const truncateText = (text: string, maxSymbol: number): string => {
   return text;
 };
 
-export const Article: React.FC<ArticleProps> = ({ item, children }) => {
+export const Article: React.FC<ArticlePropsType> = ({ item, children }) => {
   const isLoading = useSelector(
     (state: PercentLoadType) => state.articlesReducer.loader
   );

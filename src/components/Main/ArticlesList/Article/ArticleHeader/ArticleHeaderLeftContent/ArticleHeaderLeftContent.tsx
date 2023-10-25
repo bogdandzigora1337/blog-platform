@@ -1,16 +1,17 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import uniqId from "uniqid";
 
-import { toggleArticleLikeAPI } from "../../../../../../redux/actions";
-import { truncateText } from "../../Article";
-import { IconLikesActive, IconLikesNotActive } from "../../IconLikes";
-
 import cl from "./ArticleHeaderLeftContent.module.scss";
 
-type ArticleDataType = RootState["articlesReducer"]["data"]["articles"][0];
+import { toggleArticleLikeAPI } from "../../../../../../redux/actions";
+import { truncateText } from "../../Article";
+import { IconLikesActive, IconLikesNotActive } from "./IconLikes";
 
-type UserTokenType = {
+type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
+
+type UserDataType = {
   logToAccountReducer: {
     data: {
       user: {
@@ -23,7 +24,7 @@ type UserTokenType = {
   };
 };
 
-type RootState = {
+type ArticleDataType = {
   articlesReducer: {
     data: {
       articles: {
@@ -47,66 +48,71 @@ type RootState = {
   };
 };
 
-export const ArticleHeaderLeftContent = ({
-  item,
-}: {
-  item: ArticleDataType;
-}) => {
+type ArticleHeaderProps = {
+  item: ArticleType;
+};
+
+const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
   const dispatch = useDispatch<any>();
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserDataType) => state.logToAccountReducer.data?.user?.token
   );
 
+  const handleLikeClick = () => {
+    if (userToken) {
+      dispatch(toggleArticleLikeAPI(item.slug, userToken, !item.favorited));
+    }
+  };
+
+  const renderTags = () => {
+    if (!item.tagList.length) {
+      return <span key={uniqId()}>no tags</span>;
+    }
+
+    return item.tagList.map((tag: string) => {
+      return tag && tag.length ? (
+        <span key={uniqId()}>{truncateText(tag, 10)}</span>
+      ) : (
+        <span key={uniqId()}>no tags</span>
+      );
+    });
+  };
+
+  const renderLikeButton = () => {
+    if (userToken) {
+      return (
+        <span
+          className={cl["article-header__left-content__likes__svg"]}
+          onClick={handleLikeClick}
+        >
+          {item.favorited ? <IconLikesActive /> : <IconLikesNotActive />}
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className={cl["articles-list__item__header__left-content"]}>
-      <div
-        className={cl["articles-list__item__header__left-content__container"]}
-      >
+    <div className={cl["article-header__left-content"]}>
+      <div className={cl["article-header__left-content__container"]}>
         <Link
           to={`/articles/${item.slug}`}
-          className={cl["articles-list__item__header__left-content__title"]}
+          className={cl["article-header__left-content__title"]}
         >
-          {truncateText(item.title, 20)}
+          {truncateText(item.title, 50)}
         </Link>
 
-        <div className={cl["articles-list__item__header__left-content__likes"]}>
-          {
-            <div
-              onClick={() => {
-                console.log(item.favorited);
-
-                userToken &&
-                  dispatch(
-                    toggleArticleLikeAPI(item.slug, userToken, !item.favorited)
-                  );
-              }}
-            >
-              {userToken && item.favorited ? (
-                <IconLikesActive />
-              ) : (
-                <IconLikesNotActive />
-              )}
-            </div>
-          }
+        <span className={cl["article-header__left-content__likes"]}>
+          {renderLikeButton()}
           {<span>{item.favoritesCount}</span>}
-        </div>
+        </span>
       </div>
-      <div className={cl["articles-list__item__header__left-content__tags"]}>
-        {!!item.tagList.length ? (
-          item.tagList.map((tag) => {
-            return tag && !!tag.length ? (
-              <span key={uniqId()}>{truncateText(tag, 10)}</span>
-            ) : (
-              <span key={uniqId()}>no tags</span>
-            );
-          })
-        ) : (
-          <>
-            <span key={uniqId()}>no tags</span>
-          </>
-        )}
+      <div className={cl["article-header__left-content__tags"]}>
+        {renderTags()}
       </div>
     </div>
   );
 };
+
+export default ArticleHeaderLeftContent;

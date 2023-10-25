@@ -59,6 +59,7 @@ type RegUserData = {
 export const SingUpForm: React.FC = () => {
   const history = useHistory();
   let previousPath = history.location.pathname;
+
   history.listen((location, action) => {
     if (
       action === "PUSH" &&
@@ -79,13 +80,7 @@ export const SingUpForm: React.FC = () => {
     (state: RegUserData) => state.registrationReducer.data
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-    control,
-    reset,
-  } = useForm<FormDataType>({ mode: "onBlur" });
+  const { reset } = useForm<FormDataType>({ mode: "onBlur" });
   const methods = useForm<FormDataType>({ mode: "onBlur" });
 
   const onSubmit = (data: FormDataType) => {

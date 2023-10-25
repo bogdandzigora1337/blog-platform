@@ -1,9 +1,13 @@
-import { ArticleHeaderLeftContent } from "./ArticleHeaderLeftContent/ArticleHeaderLeftContent";
+import React from "react";
+
+import cl from "./ArticleHeader.module.scss";
+
+import ArticleHeaderLeftContent from "./ArticleHeaderLeftContent/ArticleHeaderLeftContent";
 import { ArticleHeaderRightContent } from "./ArticleHeaderRightContent/ArticleHeaderRightContent";
 
-type ArticleDataType = RootState["articlesReducer"]["data"]["articles"][0];
+type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
 
-type RootState = {
+type ArticleDataType = {
   articlesReducer: {
     data: {
       articles: {
@@ -26,11 +30,18 @@ type RootState = {
     };
   };
 };
-export const ArticleHeader = ({ item }: { item: ArticleDataType }) => {
+
+type ArticleHeaderProps = {
+  item: ArticleType;
+};
+
+const ArticleHeader: React.FC<ArticleHeaderProps> = ({ item }) => {
   return (
-    <div className={"articles-list__item__header"}>
+    <div className={cl["article-header"]}>
       <ArticleHeaderLeftContent item={item} />
       <ArticleHeaderRightContent item={item} />
     </div>
   );
 };
+
+export default ArticleHeader;

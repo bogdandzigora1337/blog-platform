@@ -1,13 +1,11 @@
 .main__articles-list {
   list-style-type: none;
   display: flex;
-  width: 65.49%;
-  max-width: 941px;
+  width: 941px;
   flex-direction: column;
   margin: 0 auto;
-  padding-top: 26px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 965px) {
     width: 98%;
   }
 }

@@ -1,0 +1,67 @@
+$font-size-base: 20px;
+$font-size-small: 12px;
+$line-height-base: 28px;
+$line-height-small: 22px;
+$tag-border-color: rgba(0, 0, 0, 0.5);
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin link-styles {
+  color: #1890ff;
+  text-decoration: none;
+  font-size: $font-size-base;
+  font-style: normal;
+  line-height: $line-height-base;
+}
+
+.article-header__left-content {
+  &__container {
+    @include flex-center;
+  }
+
+  &__title {
+    margin-right: 13px;
+    overflow-wrap: anywhere;
+    @include link-styles;
+
+    @media screen and (max-width: 768px) {
+      /* Медиа-запросы по вашему усмотрению */
+    }
+  }
+
+  &__likes {
+    @include flex-center;
+
+    &__svg {
+      margin-right: 5px;
+    }
+
+    span {
+      font-size: $font-size-small;
+      font-style: normal;
+      font-weight: 400;
+      line-height: $line-height-small;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    span {
+      margin-right: 8px;
+      margin-bottom: 2px;
+      display: flex;
+      padding: 2px 5px 2px 5px;
+      flex-shrink: 0;
+      border-radius: 2px;
+      border: 1px solid $tag-border-color;
+      font-size: $font-size-small;
+      font-style: normal;
+      line-height: $line-height-small;
+    }
+  }
+}

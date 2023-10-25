@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { Button, Popconfirm } from "antd";
@@ -7,12 +8,11 @@ import cl from "./ArticleDescription.module.scss";
 
 import "../ArticleAntd.scss";
 import { articleDelete } from "../../../../../redux/actions";
-import { useDispatch } from "react-redux";
 import { getArticles } from "../../../../../redux/actions";
 
-type ArticleDataType = RootState["articlesReducer"]["data"]["articles"][0];
+type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
 
-export type RootState = {
+export type ArticleDataType = {
   articlesReducer: {
     data: {
       articles: {
@@ -33,23 +33,11 @@ export type RootState = {
         updatedAt: string;
       }[];
     };
-  };
-};
-type CurrentPageType = {
-  articlesReducer: {
     currentPage: number;
   };
 };
-type UsernameType = {
-  logToAccountReducer: {
-    data: {
-      user?: {
-        username: string;
-      };
-    };
-  };
-};
-type UserTokenType = {
+
+type UserDataType = {
   logToAccountReducer: {
     data: {
       user: {
@@ -62,31 +50,34 @@ type UserTokenType = {
   };
 };
 
-export const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
+type ArticleHeaderProps = {
+  item: ArticleType;
+};
+
+const ArticleDescription: React.FC<ArticleHeaderProps> = ({ item }) => {
   const dispatch = useDispatch<any>();
 
   const currentPage = useSelector(
-    (state: CurrentPageType) => state.articlesReducer.currentPage
+    (state: ArticleDataType) => state.articlesReducer.currentPage
   );
 
   const usernameActive = useSelector(
-    (state: UsernameType) => state.logToAccountReducer.data?.user?.username
+    (state: UserDataType) => state.logToAccountReducer.data?.user?.username
   );
   let isUserArticle: boolean = usernameActive === item.author.username;
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserDataType) => state.logToAccountReducer.data?.user?.token
   );
 
   return (
     <>
-      <div className={"articles-list__item__description"}>
-        <p className={"articles-list__item__description__text"}>
-          {item.description}
-        </p>
+      <div className={cl["article-description"]}>
+        <p className={cl["article-description__text"]}>{item.description}</p>
         {isUserArticle && (
-          <div className={cl["articles-list__item__description__buttons"]}>
+          <div className={cl["article-description__btn"]}>
             <Popconfirm
+              className={cl["article-description__btn__delete"]}
               placement="rightTop"
               title={"text"}
               description={"Are you sure to delete this article?"}
@@ -99,14 +90,28 @@ export const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
               okText="Yes"
               cancelText="No"
             >
-              <Button>Delete</Button>
+              <Button
+                style={{
+                  borderColor: "1px solid var(--success-color, #F5222D)",
+                  color: "var(--success-color, #F5222D)",
+                }}
+              >
+                Delete
+              </Button>
             </Popconfirm>
 
             <Link
               to={`/articles/${item.slug}/edit`}
-              className={cl["articles-list__item__header__left-content__title"]}
+              className={cl["article-description__btn__edit"]}
             >
-              <Button>Edit</Button>
+              <Button
+                style={{
+                  borderColor: "1px solid var(--success-color, #52C41A)",
+                  color: "var(--success-color, #52C41A)",
+                }}
+              >
+                Edit
+              </Button>
             </Link>
           </div>
         )}
@@ -114,3 +119,5 @@ export const ArticleDescription = ({ item }: { item: ArticleDataType }) => {
     </>
   );
 };
+
+export default ArticleDescription;

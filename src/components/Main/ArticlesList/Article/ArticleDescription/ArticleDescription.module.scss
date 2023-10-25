@@ -1,0 +1,23 @@
+.article-description {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 0px 19px;
+
+  &__text {
+    color: rgba(0, 0, 0, 0.5);
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+  }
+
+  &__btn {
+    display: flex;
+    flex-wrap: nowrap;
+
+    &__delete {
+      margin-right: 12px;
+    }
+  }
+}

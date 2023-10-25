@@ -11,7 +11,7 @@ import { ArticleExpanded } from "./ArticleExpanded/ArticleExpanded";
 import { SingInForm } from "./SingInForm/SingInForm";
 import { SingUpForm } from "./SingUpForm/SingUpForm";
 import { ProfileEditingForm } from "./ProfileEditingForm/ProfileEditingForm";
-import { ArticlesCreating } from "./CreatingArticles/CreatingArticles";
+import { ArticlesCreating } from "./ArticlesCreating/ArticleCreating";
 
 type HasErrorType = {
   articlesReducer: {
