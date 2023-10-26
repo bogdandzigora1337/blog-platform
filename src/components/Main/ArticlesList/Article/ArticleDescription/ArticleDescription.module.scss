@@ -1,7 +1,15 @@
 .article-description {
   display: flex;
   justify-content: space-between;
+
   padding: 15px 15px 0px 19px;
+
+  @media screen and (max-width: 768px) {
+    padding: 15px 5px 0px 10px;
+  }
+
+  @media screen and (max-width: 1000px) {
+  }
 
   &__text {
     color: rgba(0, 0, 0, 0.5);

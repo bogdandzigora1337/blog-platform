@@ -21,6 +21,9 @@
     font-size: 18px;
     font-style: normal;
     line-height: 28px;
+    @media screen and (max-width: 391px) {
+      font-size: 12px;
+    }
   }
 
   &__created-at {
@@ -28,6 +31,9 @@
     font-size: 12px;
     font-style: normal;
     line-height: 22px;
+    @media screen and (max-width: 391px) {
+      font-size: 7px;
+    }
   }
 
   &__avatar {

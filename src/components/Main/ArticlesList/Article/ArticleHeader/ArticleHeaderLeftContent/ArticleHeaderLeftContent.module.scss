@@ -27,8 +27,8 @@ $tag-border-color: rgba(0, 0, 0, 0.5);
     overflow-wrap: anywhere;
     @include link-styles;
 
-    @media screen and (max-width: 768px) {
-      /* Медиа-запросы по вашему усмотрению */
+    @media screen and (max-width: 391px) {
+      font-size: 15px;
     }
   }
 
@@ -37,6 +37,8 @@ $tag-border-color: rgba(0, 0, 0, 0.5);
 
     &__svg {
       margin-right: 5px;
+      display: flex;
+      align-items: center;
     }
 
     span {

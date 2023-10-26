@@ -22,7 +22,7 @@ $redColor: red;
   background: $grey1;
   @include boxShadow;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1185px) {
     width: 99%;
   }
 

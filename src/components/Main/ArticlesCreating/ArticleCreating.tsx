@@ -30,10 +30,10 @@ type currentArticlesType = {
 export const ArticlesCreating: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const creationMessage = (messageType: NoticeType) => {
+  const creationMessage = (messageType: NoticeType, messageText: string) => {
     messageApi.open({
       type: messageType,
-      content: "This is a success message",
+      content: messageText,
     });
   };
 

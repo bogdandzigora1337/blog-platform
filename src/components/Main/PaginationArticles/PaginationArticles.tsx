@@ -9,6 +9,9 @@ import { currentArticlesPage, getArticles } from "../../../redux/actions";
 type CurrentPageType = {
   articlesReducer: {
     currentPage: number;
+    data: {
+      articlesCount: number;
+    };
   };
 };
 
@@ -25,32 +28,22 @@ type UserTokenType = {
   };
 };
 
-type NumberPagesType = {
-  articlesReducer: {
-    data: {
-      articlesCount: number;
-    };
-  };
-};
-
 const PaginationArticles: React.FC = () => {
+  const dispatch = useDispatch<any>();
+
   const currentPage = useSelector(
     (state: CurrentPageType) => state.articlesReducer.currentPage
   );
-
   const userToken = useSelector(
     (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
   );
-
-  const numberPages = useSelector((state: NumberPagesType) =>
+  const totalPages = useSelector((state: CurrentPageType) =>
     Math.ceil(state.articlesReducer.data?.articlesCount / 5)
   );
 
-  const dispatch = useDispatch<any>();
-
   return (
     <div className={cl["pagination-articles"]}>
-      {numberPages ? (
+      {totalPages ? (
         <ConfigProvider
           theme={{
             components: {
@@ -65,7 +58,7 @@ const PaginationArticles: React.FC = () => {
         >
           <Pagination
             className={cl["pagination"]}
-            total={numberPages * 10}
+            total={totalPages * 10}
             current={currentPage}
             showSizeChanger={false}
             onChange={(page) => {

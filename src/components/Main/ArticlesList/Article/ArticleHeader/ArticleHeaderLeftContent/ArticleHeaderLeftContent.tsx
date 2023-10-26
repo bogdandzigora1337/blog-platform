@@ -71,7 +71,7 @@ const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
     }
 
     return item.tagList.map((tag: string) => {
-      return tag && tag.length ? (
+      return tag.trim() && tag.length ? (
         <span key={uniqId()}>{truncateText(tag, 10)}</span>
       ) : (
         <span key={uniqId()}>no tags</span>
@@ -80,17 +80,22 @@ const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
   };
 
   const renderLikeButton = () => {
-    if (userToken) {
-      return (
-        <span
-          className={cl["article-header__left-content__likes__svg"]}
-          onClick={handleLikeClick}
-        >
-          {item.favorited ? <IconLikesActive /> : <IconLikesNotActive />}
-        </span>
-      );
-    }
-    return null;
+    return (
+      <span
+        className={cl["article-header__left-content__likes__svg"]}
+        onClick={handleLikeClick}
+      >
+        {userToken ? (
+          item.favorited ? (
+            <IconLikesActive />
+          ) : (
+            <IconLikesNotActive />
+          )
+        ) : (
+          <IconLikesNotActive />
+        )}
+      </span>
+    );
   };
 
   return (
@@ -100,7 +105,7 @@ const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
           to={`/articles/${item.slug}`}
           className={cl["article-header__left-content__title"]}
         >
-          {truncateText(item.title, 50)}
+          {truncateText(item.title, 20)}
         </Link>
 
         <span className={cl["article-header__left-content__likes"]}>

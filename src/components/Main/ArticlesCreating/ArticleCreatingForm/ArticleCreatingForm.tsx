@@ -94,9 +94,9 @@ export const ArticleCreatingForm: React.FC<ArticleFormProps> = ({
       createArticle(wrapperData, isNewArticlePage ? "POST" : "PUT")
     ).then((data: unknown) => {
       if (typeof data === "undefined") {
-        creationMessage("error");
+        creationMessage("error", "An error occurred on the server side");
       } else {
-        creationMessage("success");
+        creationMessage("success", "Request completed successfully");
         if (isNewArticlePage) {
           dispatch(currentArticlesPage(1));
           dispatch(getArticles(5, 0, userToken));

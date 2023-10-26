@@ -1,1 +1,79 @@
+@mixin input-text-style {
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+  border: 1px solid gray;
+  padding-left: 0.75rem;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
 
+.article-creating {
+  &__tags {
+    margin-bottom: 10px;
+
+    &__container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &__input {
+      display: flex;
+      width: 360px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+
+      &:last-child {
+        margin-bottom: 0px;
+        position: relative;
+      }
+
+      input {
+        @include input-text-style();
+      }
+    }
+
+    &__btn {
+      &--delete-tag {
+        margin-left: 18px;
+        width: 118px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+
+        @media screen and (max-width: 529px) {
+          width: 80px;
+        }
+      }
+
+      &--add-tag {
+        width: 136px;
+        font-family: Roboto;
+        height: 40px;
+        font-size: 16px;
+        font-style: normal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+.input-error {
+  border-color: red !important;
+}
+
+.error-text {
+  color: red !important;
+}

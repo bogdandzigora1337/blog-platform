@@ -9,6 +9,7 @@ import cl from "./ArticleDescription.module.scss";
 import "../ArticleAntd.scss";
 import { articleDelete } from "../../../../../redux/actions";
 import { getArticles } from "../../../../../redux/actions";
+import { truncateText } from "../Article";
 
 type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
 
@@ -73,7 +74,9 @@ const ArticleDescription: React.FC<ArticleHeaderProps> = ({ item }) => {
   return (
     <>
       <div className={cl["article-description"]}>
-        <p className={cl["article-description__text"]}>{item.description}</p>
+        <p className={cl["article-description__text"]}>
+          {truncateText(item.description, 200)}
+        </p>
         {isUserArticle && (
           <div className={cl["article-description__btn"]}>
             <Popconfirm
