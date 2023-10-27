@@ -6,13 +6,17 @@ interface InputFieldProps {
   label?: string;
   type: string;
   name: string;
-  register: any;
+  register: Function;
   errors?: any;
   placeholder: string;
   className?: string;
   minLength?: number;
   maxLength?: number;
   isTextarea?: boolean;
+  pattern?: any;
+  validate?: any;
+  isRequired?: boolean;
+  serverRequestError?: false | string | null;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -25,14 +29,20 @@ const InputField: React.FC<InputFieldProps> = ({
   minLength,
   maxLength,
   isTextarea,
+  pattern,
+  validate,
+  isRequired,
+  serverRequestError,
 }) => (
   <>
     {label && <label>{label}</label>}
     {isTextarea ? (
       <textarea
-        className={errors[name] && cl["input-error"]}
+        className={(errors[name] || serverRequestError) && cl["input-error"]}
         {...register(name, {
-          required: "This field is required",
+          validate: validate,
+          pattern: pattern,
+          required: isRequired === undefined ? "This field is required" : false,
           minLength: {
             value: minLength,
             message: `Minimum ${minLength} characters`,
@@ -46,9 +56,11 @@ const InputField: React.FC<InputFieldProps> = ({
       />
     ) : (
       <input
-        className={errors[name] && cl["input-error"]}
+        className={(errors[name] || serverRequestError) && cl["input-error"]}
         {...register(name, {
-          required: "This field is required",
+          required: isRequired === undefined ? "This field is required" : false,
+          validate: validate,
+          pattern: pattern,
           minLength: {
             value: minLength,
             message: `Minimum ${minLength} characters`,

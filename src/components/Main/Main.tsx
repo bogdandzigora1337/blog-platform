@@ -8,9 +8,9 @@ import cl from "./Main.module.scss";
 import { ArticlesList } from "./ArticlesList/ArticlesList";
 import PaginationArticles from "./PaginationArticles/PaginationArticles";
 import { ArticleExpanded } from "./ArticleExpanded/ArticleExpanded";
-import { SingInForm } from "./SingInForm/SingInForm";
-import { SingUpForm } from "./SingUpForm/SingUpForm";
-import { ProfileEditingForm } from "./ProfileEditingForm/ProfileEditingForm";
+import { SingIn } from "./SingIn/SingIn";
+import { SingUp } from "./SingUp/SingUp";
+import { ProfileEditing } from "./ProfileEditing/ProfileEditing";
 import { ArticlesCreating } from "./ArticlesCreating/ArticleCreating";
 
 type HasErrorType = {
@@ -36,9 +36,9 @@ const Main: React.FC = () => {
 
   return (
     <div className={cl["main"]}>
-      <Route path={"/profile"} render={() => <ProfileEditingForm />} />
-      <Route path={"/sing-in"} render={() => <SingInForm />} />
-      <Route path={"/sing-up"} render={() => <SingUpForm />} />
+      <Route path={"/profile"} render={() => <ProfileEditing />} />
+      <Route path={"/sing-in"} render={() => <SingIn />} />
+      <Route path={"/sing-up"} render={() => <SingUp />} />
       <Route path={"/new-article"}>
         {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
       </Route>

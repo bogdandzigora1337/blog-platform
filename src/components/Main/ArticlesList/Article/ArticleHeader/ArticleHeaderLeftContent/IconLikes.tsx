@@ -1,4 +1,4 @@
-export const IconLikesNotActive: React.FC = () => {
+export const IconLikesNotActive = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@ export const IconLikesNotActive: React.FC = () => {
   );
 };
 
-export const IconLikesActive: React.FC = () => {
+export const IconLikesActive = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

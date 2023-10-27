@@ -1,0 +1,37 @@
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@mixin box-shadow-focus {
+  &:focus {
+    background-color: #1890ff;
+    box-shadow: 0px 0.6088px 2.93329px 0px black;
+  }
+}
+
+.sing-in__log {
+  margin-top: 21px;
+  margin-bottom: 8px;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  text-align: center;
+  color: #fff;
+  background: var(--daybreak-blue-blue-6, #1890ff);
+
+  @include flex-center;
+
+  &:disabled {
+    background-color: #595959;
+  }
+
+  @include box-shadow-focus;
+}
