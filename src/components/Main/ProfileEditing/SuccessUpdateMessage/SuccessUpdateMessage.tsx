@@ -6,7 +6,7 @@ import { Button } from "antd";
 import cl from "./SuccessUpdateMessage.module.scss";
 
 import { IconProfile } from "../IconProfile";
-import { clearChangeUserDataErr } from "../../../../redux/actions";
+import { clearChangeUserDataErr } from "../../../../redux/actions/authActions";
 
 const SuccessUpdateMessage: React.FC = () => {
   const dispatch = useDispatch<any>();

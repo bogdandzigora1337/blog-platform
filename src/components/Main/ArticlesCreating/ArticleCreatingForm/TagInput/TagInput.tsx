@@ -24,7 +24,6 @@ const TagInput: React.FC<TagInputProps> = ({
 }) => {
   const renderTagInput = (tag: any, index: number) => {
     const hasError = errors?.tagList && errors.tagList[index];
-
     return (
       <div key={index} className={cl["article-creating__tags__input"]}>
         <InputField

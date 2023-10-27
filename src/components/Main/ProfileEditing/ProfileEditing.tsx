@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import cl from "./ProfileEditing.module.scss";
 
-import { clearChangeUserDataErr } from "../../../redux/actions";
+import { clearChangeUserDataErr } from "../../../redux/actions/authActions";
 import ProfileEditAccessMessage from "./ProfileEditAccessMessage/ProfileEditAccessMessage";
 import ProfileEditingForm from "./ProfileEditingForm/ProfileEditingForm";
 import SuccessUpdateMessage from "./SuccessUpdateMessage/SuccessUpdateMessage";

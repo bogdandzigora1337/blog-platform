@@ -2,7 +2,7 @@ import React from "react";
 
 import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { logToAcc } from "../../../../redux/actions";
+import { logToAcc } from "../../../../redux/actions/authActions";
 
 import SingInEmailInput from "./SingInEmailInput/SingInEmailInput";
 import SingInPasswordInput from "./SingInPasswordInput/SingInPasswordInput";

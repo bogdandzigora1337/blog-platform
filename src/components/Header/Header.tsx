@@ -7,9 +7,8 @@ import cl from "./Header.module.scss";
 import AuthProfile from "./AuthProfile/AuthProfile";
 import LoaderArticles from "./LoaderArticles/LoaderArticles";
 import { UserProfileHeader } from "./UserProfileHeader/UserProfileHeader";
-import { currentArticlesPage } from "../../redux/actions";
-import { getArticles } from "../../redux/actions";
-import { AnyAction } from "@reduxjs/toolkit";
+import { currentArticlesPage } from "../../redux/actions/articleActions";
+import { getArticles } from "../../redux/actions/articleActions";
 
 type UserTokenType = {
   logToAccountReducer: {

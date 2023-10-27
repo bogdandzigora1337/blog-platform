@@ -7,9 +7,9 @@ import { useHistory } from "react-router-dom";
 
 import cl from "./ArticleCreatingForm.module.scss";
 
-import { createArticle } from "../../../../redux/actions";
-import { currentArticlesPage } from "../../../../redux/actions";
-import { getArticles } from "../../../../redux/actions";
+import { createArticle } from "../../../../redux/actions/articleActions";
+import { currentArticlesPage } from "../../../../redux/actions/articleActions";
+import { getArticles } from "../../../../redux/actions/articleActions";
 import TagInput from "./TagInput/TagInput";
 import InputField from "../../Form/InputField/InputField";
 

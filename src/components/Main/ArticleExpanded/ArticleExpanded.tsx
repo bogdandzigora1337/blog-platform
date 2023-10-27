@@ -45,7 +45,11 @@ export const ArticleExpanded: React.FC = () => {
   const article = articles.find((item) => item.slug === slug);
 
   if (!article) {
-    return <div>Статья не найдена</div>;
+    return (
+      <div className={cl["article-missing"]}>
+        <p>Статья не найдена</p>
+      </div>
+    );
   }
 
   return (

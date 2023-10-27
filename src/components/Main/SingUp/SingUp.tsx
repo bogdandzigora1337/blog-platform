@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { clearRegUserDataAction } from "../../../redux/actions";
+import { clearRegUserDataAction } from "../../../redux/actions/authActions";
 
 import cl from "./SingUp.module.scss";
 

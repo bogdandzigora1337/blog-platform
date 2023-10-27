@@ -7,8 +7,8 @@ import { Button, Popconfirm } from "antd";
 import cl from "./ArticleDescription.module.scss";
 
 import "../ArticleAntd.scss";
-import { articleDelete } from "../../../../../redux/actions";
-import { getArticles } from "../../../../../redux/actions";
+import { articleDelete } from "../../../../../redux/actions/articleActions";
+import { getArticles } from "../../../../../redux/actions/articleActions";
 import { truncateText } from "../Article";
 
 type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];

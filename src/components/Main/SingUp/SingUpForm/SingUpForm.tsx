@@ -3,10 +3,9 @@ import { useForm, FormProvider } from "react-hook-form";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  registrationUser,
-  clearRegUserDataAction,
-} from "../../../../redux/actions";
+import { clearRegUserDataAction } from "../../../../redux/actions/authActions";
+
+import { registrationUser } from "../../../../redux/actions/authActions";
 
 import SingUpUsernameInput from "./SingUpUsernameInput/SingUpUsernameInput";
 import SingUpEmailInput from "./SingUpEmailInput/SingUpEmailInput";

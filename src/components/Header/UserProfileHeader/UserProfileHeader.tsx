@@ -3,7 +3,7 @@ import { Button } from "antd";
 import cl from "./UserProfileHeader.module.scss";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logOutAction } from "../../../redux/actions";
+import { logOutAction } from "../../../redux/actions/authActions";
 import { Link } from "react-router-dom";
 
 interface User {

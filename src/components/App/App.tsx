@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getArticles } from "../../redux/actions";
+import { getArticles } from "../../redux/actions/articleActions";
 
 import { BrowserRouter as Router } from "react-router-dom";
 

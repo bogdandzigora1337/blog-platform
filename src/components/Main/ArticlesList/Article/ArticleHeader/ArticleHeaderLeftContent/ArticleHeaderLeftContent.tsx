@@ -5,7 +5,7 @@ import uniqId from "uniqid";
 
 import cl from "./ArticleHeaderLeftContent.module.scss";
 
-import { toggleArticleLikeAPI } from "../../../../../../redux/actions";
+import { toggleArticleLikeAPI } from "../../../../../../redux/actions/likeAction";
 import { truncateText } from "../../Article";
 import { IconLikesActive, IconLikesNotActive } from "./IconLikes";
 

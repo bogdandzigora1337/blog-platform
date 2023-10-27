@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 
 import cl from "./ProfileEditingForm.module.scss";
 
-import { changeUserData } from "../../../../redux/actions";
-import { clearChangeUserDataErr } from "../../../../redux/actions";
+import { changeUserData } from "../../../../redux/actions/authActions";
+import { clearChangeUserDataErr } from "../../../../redux/actions/authActions";
 import InputField from "../../Form/InputField/InputField";
 
 type FormData = {

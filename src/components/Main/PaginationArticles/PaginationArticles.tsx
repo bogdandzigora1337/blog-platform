@@ -4,7 +4,8 @@ import { Pagination, ConfigProvider } from "antd";
 
 import cl from "./PaginationArticle.module.scss";
 
-import { currentArticlesPage, getArticles } from "../../../redux/actions";
+import { currentArticlesPage } from "../../../redux/actions/articleActions";
+import { getArticles } from "../../../redux/actions/articleActions";
 
 type CurrentPageType = {
   articlesReducer: {
