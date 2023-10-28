@@ -6,41 +6,22 @@ import { useDispatch } from "react-redux";
 import cl from "./ProfileEditingForm.module.scss";
 
 import { changeUserData } from "../../../../redux/actions/authActions";
-import { clearChangeUserDataErr } from "../../../../redux/actions/authActions";
+import { clearChangeUserDataErrAction } from "../../../../redux/actions/authActions";
 import InputField from "../../Form/InputField/InputField";
+
+import { UserStateType } from "../../../../types/types";
 
 type FormData = {
   [key: string]: string;
 };
 
-type UserTokenData =
-  | {
-      token?: string;
-      image?: string;
-      email?: string;
-      username?: string;
-    }
-  | null
-  | undefined;
-
-type EditingErrorData =
-  | {
-      errors?: {
-        username?: string;
-        email?: string;
-      };
-    }
-  | null
-  | boolean
-  | string;
-
-interface ProfileEditingFormProps {
+interface IProfileEditingFormProps {
   userToken: string;
-  userData: UserTokenData;
-  editingError: EditingErrorData;
+  userData: UserStateType["logToAccountReducer"]["data"];
+  editingError: UserStateType["logToAccountReducer"]["editingError"];
 }
 
-const ProfileEditingForm: React.FC<ProfileEditingFormProps> = ({
+const ProfileEditingForm: React.FC<IProfileEditingFormProps> = ({
   userToken,
   userData,
   editingError,
@@ -83,7 +64,7 @@ const ProfileEditingForm: React.FC<ProfileEditingFormProps> = ({
           name="username"
           register={register}
           errors={errors}
-          placeholder={`${userData?.username}`}
+          placeholder={`${userData?.user?.username}`}
           maxLength={20}
           minLength={3}
           pattern={{
@@ -104,7 +85,7 @@ const ProfileEditingForm: React.FC<ProfileEditingFormProps> = ({
           name="email"
           register={register}
           errors={errors}
-          placeholder={`${userData?.email}`}
+          placeholder={`${userData?.user?.email}`}
           validate={(value: string) => {
             if (value) {
               if (!/^\S+@\S+$/i.test(value)) {
@@ -153,7 +134,7 @@ const ProfileEditingForm: React.FC<ProfileEditingFormProps> = ({
         value={"Save"}
         className={cl["edit-profile__save"]}
         disabled={!isValid || !isAnyFieldFilled}
-        onClick={() => dispatch(clearChangeUserDataErr())}
+        onClick={() => dispatch(clearChangeUserDataErrAction())}
       />
     </form>
   );

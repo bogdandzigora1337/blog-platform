@@ -9,33 +9,16 @@ import cl from "./App.module.scss";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 
-type CurrentPageType = {
-  articlesReducer: {
-    currentPage: number;
-  };
-};
-
-type UserTokenType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
-};
+import { ArticlesStateType, UserStateType } from "../../types/types";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<any>();
   const currentPage = useSelector(
-    (state: CurrentPageType) => state.articlesReducer.currentPage
+    (state: ArticlesStateType) => state.articlesReducer.currentPage
   );
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
 
   useEffect(() => {

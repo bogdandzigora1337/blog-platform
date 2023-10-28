@@ -6,7 +6,7 @@ import { Button } from "antd";
 import cl from "./SuccessUpdateMessage.module.scss";
 
 import { IconProfile } from "../IconProfile";
-import { clearChangeUserDataErr } from "../../../../redux/actions/authActions";
+import { clearChangeUserDataErrAction } from "../../../../redux/actions/authActions";
 
 const SuccessUpdateMessage: React.FC = () => {
   const dispatch = useDispatch<any>();
@@ -22,7 +22,7 @@ const SuccessUpdateMessage: React.FC = () => {
         <span>{<IconProfile />}</span> Data has been successfully updated.
       </p>
       <Button
-        onClick={() => dispatch(clearChangeUserDataErr())}
+        onClick={() => dispatch(clearChangeUserDataErrAction())}
         style={buttonStyles}
       >
         Close notification

@@ -1,13 +1,12 @@
 import React from "react";
 
 import { Button } from "antd";
-import { useState } from "react";
 
 import cl from "./TagInput.module.scss";
 
 import InputField from "../../../Form/InputField/InputField";
 
-interface TagInputProps {
+interface ITagInputProps {
   fields: { id: string }[];
   register: any;
   remove: (index: number) => void;
@@ -15,7 +14,7 @@ interface TagInputProps {
   append: any;
 }
 
-const TagInput: React.FC<TagInputProps> = ({
+const TagInput: React.FC<ITagInputProps> = ({
   fields,
   register,
   remove,

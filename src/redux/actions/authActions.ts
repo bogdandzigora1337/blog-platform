@@ -13,6 +13,7 @@ import {
   CHANGE_USER_DATA_SUCCESS,
   CLEAR_CHANGE_USER_DATA_ERROR,
   CLEAR_REGISTER_USER_DATA,
+  CLEAR_USER_LOGIN_ERROR,
 } from "../types";
 
 type userDataType = {
@@ -26,21 +27,21 @@ type userDataType = {
   };
 };
 
-export const logToAccRequest = () => ({
+export const logToAccRequestAction = () => ({
   type: LOGIN_TO_ACCOUNT_REQUEST,
 });
 
-export const logToAccSuccess = (data: unknown) => ({
+export const logToAccSuccessAction = (data: unknown) => ({
   type: LOGIN_TO_ACCOUNT_SUCCESS,
   payload: data,
 });
 
-export const logToAccFailure = (error: string | object) => ({
+export const logToAccFailureAction = (error: string | object) => ({
   type: LOGIN_TO_ACCOUNT_FAILURE,
   payload: error,
 });
 
-export const logOutAction = () => ({
+export const logOutActionAction = () => ({
   type: LOGIN_OUT,
 });
 
@@ -53,7 +54,7 @@ export const logToAcc = (email: string, password: string) => {
   };
 
   return (dispatch: Dispatch) => {
-    dispatch(logToAccRequest());
+    dispatch(logToAccRequestAction());
 
     fetch("https://blog.kata.academy/api/users/login", {
       method: "POST",
@@ -66,7 +67,7 @@ export const logToAcc = (email: string, password: string) => {
         if (!response.ok) {
           if (response.status === 422) {
             return response.json().then((errorData) => {
-              dispatch(logToAccFailure(errorData));
+              dispatch(logToAccFailureAction(errorData));
             });
           }
           throw new Error("Network response was not ok");
@@ -75,10 +76,10 @@ export const logToAcc = (email: string, password: string) => {
         }
       })
       .then((responseData) => {
-        dispatch(logToAccSuccess(responseData));
+        dispatch(logToAccSuccessAction(responseData));
       })
       .catch((error) => {
-        dispatch(logToAccFailure(error.message));
+        dispatch(logToAccFailureAction(error.message));
       });
   };
 };
@@ -179,10 +180,14 @@ export const changeUserData = (data: userDataType) => {
   };
 };
 
-export const clearChangeUserDataErr = () => ({
+export const clearChangeUserDataErrAction = () => ({
   type: CLEAR_CHANGE_USER_DATA_ERROR,
 });
 
 export const clearRegUserDataAction = () => ({
   type: CLEAR_REGISTER_USER_DATA,
+});
+
+export const clearUserLoginErrorAction = () => ({
+  type: CLEAR_USER_LOGIN_ERROR,
 });

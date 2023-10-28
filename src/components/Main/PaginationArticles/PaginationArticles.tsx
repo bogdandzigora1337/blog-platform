@@ -6,39 +6,18 @@ import cl from "./PaginationArticle.module.scss";
 
 import { currentArticlesPage } from "../../../redux/actions/articleActions";
 import { getArticles } from "../../../redux/actions/articleActions";
-
-type CurrentPageType = {
-  articlesReducer: {
-    currentPage: number;
-    data: {
-      articlesCount: number;
-    };
-  };
-};
-
-type UserTokenType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
-};
+import { ArticlesStateType, UserStateType } from "../../../types/types";
 
 const PaginationArticles: React.FC = () => {
   const dispatch = useDispatch<any>();
 
   const currentPage = useSelector(
-    (state: CurrentPageType) => state.articlesReducer.currentPage
+    (state: ArticlesStateType) => state.articlesReducer.currentPage
   );
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
-  const totalPages = useSelector((state: CurrentPageType) =>
+  const totalPages = useSelector((state: ArticlesStateType) =>
     Math.ceil(state.articlesReducer.data?.articlesCount / 5)
   );
 

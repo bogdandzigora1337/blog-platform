@@ -11,25 +11,10 @@ import {
   UNLIKE_ARTICLE_SUCCESS,
 } from "../types";
 
-export interface ArticlesData {
-  author: {
-    username: string;
-    image: string;
-    following: boolean;
-  };
-  body: string;
-  createdAt: string;
-  description: string;
-  favorited: boolean;
-  favoritesCount: number;
-  slug: string;
-  tagList: string[];
-  title: string;
-  updatedAt: string;
-}
+import { ArticleDataType } from "../../types/types";
 
 export interface ArticlesState {
-  data: { articles: ArticlesData[] } | null;
+  data: { articles: ArticleDataType[] } | null;
   loader: boolean;
   error: string | null;
   currentPage: number;
@@ -44,7 +29,7 @@ const initialState: ArticlesState = {
   percentLoader: 0,
 };
 
-type ArticleAction =
+type ArticlesAction =
   | { type: typeof FETCH_ARTICLES_REQUEST }
   | { type: typeof FETCH_ARTICLES_SUCCESS; payload: object }
   | { type: typeof FETCH_ARTICLES_FAILURE; payload: string }
@@ -58,7 +43,7 @@ type ArticleAction =
 
 export const articlesReducer = (
   state = initialState,
-  action: ArticleAction
+  action: ArticlesAction
 ) => {
   switch (action.type) {
     case FETCH_ARTICLES_REQUEST:

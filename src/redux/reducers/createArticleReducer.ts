@@ -5,13 +5,15 @@ import {
   ARTICLE_DELETE_SUCCESS,
 } from "../types";
 
-interface IuserState {
-  data: object | null;
+import { ArticleDataType } from "../../types/types";
+
+interface IArticleState {
+  data: ArticleDataType | null;
   loader: boolean;
-  error: string | null | object;
+  error: null | string;
 }
 
-const initialState: IuserState = {
+const initialState: IArticleState = {
   data: null,
   loader: false,
   error: null,
@@ -22,6 +24,7 @@ type ArticleAction =
   | { type: typeof CREATE_ARTICLES_SUCCESS; payload: object }
   | { type: typeof CREATE_ARTICLES_FAILURE; payload: string }
   | { type: typeof ARTICLE_DELETE_SUCCESS };
+
 export const createArticleReducer = (
   state = initialState,
   action: ArticleAction
@@ -37,7 +40,7 @@ export const createArticleReducer = (
         ...state,
         loader: false,
         data: action.payload,
-        error: null, // !
+        error: null,
       };
 
     case CREATE_ARTICLES_FAILURE:

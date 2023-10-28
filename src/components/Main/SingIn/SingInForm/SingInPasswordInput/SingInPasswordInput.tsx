@@ -11,20 +11,12 @@ type FormDataType = {
   password: string;
 };
 
-type ErrorType = {
-  logToAccountReducer: {
-    error: string | { errors: { "email or password": string } };
-  };
-};
-
-type SingInEmailInputProps = {
+interface ISingInEmailInputProps {
   errorType: string | false | null;
-  error: ErrorType["logToAccountReducer"]["error"];
-};
+}
 
-const SingInPasswordInput: React.FC<SingInEmailInputProps> = ({
+const SingInPasswordInput: React.FC<ISingInEmailInputProps> = ({
   errorType,
-  error,
 }) => {
   const { register, formState } = useFormContext<FormDataType>();
   const { errors } = formState;
@@ -41,11 +33,6 @@ const SingInPasswordInput: React.FC<SingInEmailInputProps> = ({
         minLength={6}
         maxLength={40}
       />
-      {errorType && typeof error === "object" && "errors" in error && (
-        <p className={cl["error-text"]}>
-          {"Email or password: " + error.errors["email or password"]}
-        </p>
-      )}
     </div>
   );
 };

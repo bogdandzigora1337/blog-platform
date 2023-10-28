@@ -14,30 +14,18 @@ import SingUpConfirmPasswordInput from "./SingUpConfirmPasswordInput/SingUpConfi
 import SingUpTermsOfUse from "./SingUpTermsOfUse/SingUpTermsOfUse";
 import SingUpSubmit from "./SingUpSubmit/SingUpSubmit";
 
-type FormDataType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: string;
-};
-
-type ErrorType = {
-  registrationReducer: {
-    error: null | string | { errors: { username?: string; email?: string } };
-  };
-};
+import { RegUserStateType, RegUserFormType } from "../../../../types/types";
 
 export const SingUpForm: React.FC = () => {
   const dispatch = useDispatch<any>();
   const error = useSelector(
-    (state: ErrorType) => state.registrationReducer.error
+    (state: RegUserStateType) => state.registrationReducer.error
   );
 
-  const { reset } = useForm<FormDataType>({ mode: "onBlur" });
-  const methods = useForm<FormDataType>({ mode: "onBlur" });
+  const { reset } = useForm<RegUserFormType>({ mode: "onBlur" });
+  const methods = useForm<RegUserFormType>({ mode: "onBlur" });
 
-  const onSubmit = (data: FormDataType) => {
+  const onSubmit = (data: RegUserFormType) => {
     const obj = {
       user: {
         username: data.username,

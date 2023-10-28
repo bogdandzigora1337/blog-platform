@@ -1,8 +1,8 @@
 import React from "react";
 
 import { useLocation } from "react-router-dom";
-import { message } from "antd";
 
+import { message } from "antd";
 import { NoticeType } from "antd/es/message/interface";
 
 import { useSelector } from "react-redux";
@@ -11,21 +11,7 @@ import cl from "./CreatingArticles.module.scss";
 
 import { ArticleCreatingForm } from "./ArticleCreatingForm/ArticleCreatingForm";
 
-type ArticleType = {
-  slug: string;
-  title: string;
-  description: string;
-  body: string;
-  tagList: string[] | [];
-};
-
-type currentArticlesType = {
-  articlesReducer: {
-    data: {
-      articles: ArticleType[];
-    };
-  };
-};
+import { ArticlesStateType } from "../../../types/types";
 
 export const ArticlesCreating: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -43,10 +29,12 @@ export const ArticlesCreating: React.FC = () => {
   const currentSlug = pathParts[pathParts.length - 2];
 
   const currentArticles = useSelector(
-    (state: currentArticlesType) => state.articlesReducer.data?.articles
+    (state: ArticlesStateType) => state.articlesReducer.data?.articles
   );
 
-  const currentArticle: ArticleType | undefined =
+  const currentArticle:
+    | ArticlesStateType["articlesReducer"]["data"]["articles"][number]
+    | undefined =
     currentArticles &&
     currentArticles.find((elem) => elem.slug === currentSlug);
 

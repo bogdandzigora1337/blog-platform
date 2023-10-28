@@ -2,22 +2,16 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import cl from "../SingUpForm.module.scss";
-import InputField from "../../../Form/InputField/InputField";
 
-type FormDataType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: string;
-};
+import InputField from "../../../Form/InputField/InputField";
+import { RegUserFormType } from "../../../../../types/types";
 
 type ErrorInputPropsType = {
   error: string | { errors: { username?: string; email?: string } } | null;
 };
 
 const SingUpEmailInput: React.FC<ErrorInputPropsType> = ({ error }) => {
-  const { register, formState } = useFormContext<FormDataType>();
+  const { register, formState } = useFormContext<RegUserFormType>();
   const { errors } = formState;
 
   const emailError = error && typeof error === "object" && error.errors.email;

@@ -8,55 +8,17 @@ import cl from "./ArticleHeaderLeftContent.module.scss";
 import { toggleArticleLikeAPI } from "../../../../../../redux/actions/likeAction";
 import { truncateText } from "../../Article";
 import { IconLikesActive, IconLikesNotActive } from "./IconLikes";
+import { ArticleDataType, UserStateType } from "../../../../../../types/types";
 
-type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
+interface IArticleHeaderProps {
+  item: ArticleDataType;
+}
 
-type UserDataType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
-};
-
-type ArticleDataType = {
-  articlesReducer: {
-    data: {
-      articles: {
-        author: {
-          username: string;
-          image: string;
-          following: boolean;
-        };
-
-        body: string;
-        createdAt: string;
-        description: string;
-        favorited: boolean;
-        favoritesCount: number;
-        slug: string;
-        tagList: string[];
-        title: string;
-        updatedAt: string;
-      }[];
-    };
-  };
-};
-
-type ArticleHeaderProps = {
-  item: ArticleType;
-};
-
-const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
+const ArticleHeaderLeftContent: React.FC<IArticleHeaderProps> = ({ item }) => {
   const dispatch = useDispatch<any>();
 
   const userToken = useSelector(
-    (state: UserDataType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
 
   const handleLikeClick = () => {
@@ -70,12 +32,21 @@ const ArticleHeaderLeftContent: React.FC<ArticleHeaderProps> = ({ item }) => {
       return <span key={uniqId()}>no tags</span>;
     }
 
-    return item.tagList.map((tag: string) => {
-      return tag.trim() && tag.length ? (
-        <span key={uniqId()}>{truncateText(tag, 10)}</span>
-      ) : (
-        <span key={uniqId()}>no tags</span>
-      );
+    return item.tagList.map((tag) => {
+      if (typeof tag === "string") {
+        return tag.trim() && tag.length ? (
+          <span key={uniqId()}>{truncateText(tag, 10)}</span>
+        ) : (
+          <span key={uniqId()}>no tags</span>
+        );
+      } else if (typeof tag === "object" && "name" in tag) {
+        return tag.name.trim() && tag.name.length ? (
+          <span key={uniqId()}>{truncateText(tag.name, 10)}</span>
+        ) : (
+          <span key={uniqId()}>no tags</span>
+        );
+      }
+      return null;
     });
   };
 

@@ -12,50 +12,20 @@ import { currentArticlesPage } from "../../../../redux/actions/articleActions";
 import { getArticles } from "../../../../redux/actions/articleActions";
 import TagInput from "./TagInput/TagInput";
 import InputField from "../../Form/InputField/InputField";
+import {
+  UserStateType,
+  ArticlesStateType,
+  ArticleDataType,
+} from "../../../../types/types";
 
-type FormData = {
-  title: string;
-  description: string;
-  body: string;
-  tagList?: Tag[];
-};
-
-type Tag = {
-  name: string;
-};
-
-type CurrentPageType = {
-  articlesReducer: {
-    currentPage: number;
-  };
-};
-
-interface ArticleFormProps {
+interface IArticleFormProps {
   isNewArticlePage: boolean;
-  currentArticle?: ArticleType;
+  currentArticle?: ArticleDataType;
   creationMessage: any;
   currentSlug: string;
 }
 
-type ArticleType = {
-  slug: string;
-  title: string;
-  description: string;
-  body: string;
-  tagList: string[] | [];
-};
-
-export type UserTokenType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token: string | null | undefined;
-      };
-    };
-  };
-};
-
-export const ArticleCreatingForm: React.FC<ArticleFormProps> = ({
+export const ArticleCreatingForm: React.FC<IArticleFormProps> = ({
   isNewArticlePage,
   currentArticle,
   creationMessage,
@@ -68,20 +38,30 @@ export const ArticleCreatingForm: React.FC<ArticleFormProps> = ({
     control,
     setValue,
     clearErrors,
-  } = useForm<FormData>({ mode: "onChange" });
+  } = useForm<ArticlesStateType["articlesReducer"]["data"]["articles"][number]>(
+    { mode: "onChange" }
+  );
 
   const history = useHistory();
   const dispatch = useDispatch<any>();
   const currentPage = useSelector(
-    (state: CurrentPageType) => state.articlesReducer.currentPage
+    (state: ArticlesStateType) => state.articlesReducer.currentPage
   );
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
 
-  const onSubmit = async (data: FormData) => {
-    const arrayTags = data.tagList ? data.tagList.map((elem) => elem.name) : [];
+  const onSubmit = async (
+    data: ArticlesStateType["articlesReducer"]["data"]["articles"][number]
+  ) => {
+    const arrayTags = data.tagList
+      ? Array.isArray(data.tagList)
+        ? data.tagList.map((elem) =>
+            typeof elem === "string" ? elem : elem.name
+          )
+        : [data.tagList]
+      : [];
 
     const wrapperData = {
       token: userToken,
@@ -110,7 +90,9 @@ export const ArticleCreatingForm: React.FC<ArticleFormProps> = ({
     });
   };
 
-  const { fields, append, remove } = useFieldArray<FormData>({
+  const { fields, append, remove } = useFieldArray<
+    ArticlesStateType["articlesReducer"]["data"]["articles"][number]
+  >({
     name: "tagList",
     control,
   });
@@ -130,7 +112,11 @@ export const ArticleCreatingForm: React.FC<ArticleFormProps> = ({
       remove();
 
       (currentArticle?.tagList || []).forEach((tag) => {
-        append({ name: tag });
+        if (typeof tag === "string") {
+          append({ name: tag });
+        } else if (typeof tag === "object" && "name" in tag) {
+          append({ name: tag.name });
+        }
       });
     }
   }, [isNewArticlePage, currentArticle, setValue, append, remove, clearErrors]);

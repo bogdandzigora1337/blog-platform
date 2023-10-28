@@ -8,22 +8,18 @@ import SingInEmailInput from "./SingInEmailInput/SingInEmailInput";
 import SingInPasswordInput from "./SingInPasswordInput/SingInPasswordInput";
 import SingInSubmit from "./SingInSubmit/SingInSubmit";
 
+import { UserStateType } from "../../../../types/types";
+
 type FormDataType = {
   email: string;
   password: string;
-};
-
-type ErrorType = {
-  logToAccountReducer: {
-    error: string | { errors: { "email or password": string } };
-  };
 };
 
 const SingInForm: React.FC = () => {
   const dispatch = useDispatch<any>();
 
   const error = useSelector(
-    (state: ErrorType) => state.logToAccountReducer.error
+    (state: UserStateType) => state.logToAccountReducer.error
   );
 
   const errorType =
@@ -39,7 +35,7 @@ const SingInForm: React.FC = () => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <SingInEmailInput error={error} errorType={errorType} />
-        <SingInPasswordInput error={error} errorType={errorType} />
+        <SingInPasswordInput errorType={errorType} />
         <SingInSubmit />
       </form>
     </FormProvider>

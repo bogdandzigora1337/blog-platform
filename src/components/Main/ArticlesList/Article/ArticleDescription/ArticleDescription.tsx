@@ -10,65 +10,30 @@ import "../ArticleAntd.scss";
 import { articleDelete } from "../../../../../redux/actions/articleActions";
 import { getArticles } from "../../../../../redux/actions/articleActions";
 import { truncateText } from "../Article";
+import {
+  ArticleDataType,
+  ArticlesStateType,
+  UserStateType,
+} from "../../../../../types/types";
 
-type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
+interface IArticleHeaderProps {
+  item: ArticleDataType;
+}
 
-export type ArticleDataType = {
-  articlesReducer: {
-    data: {
-      articles: {
-        author: {
-          username: string;
-          image: string;
-          following: boolean;
-        };
-
-        body: string;
-        createdAt: string;
-        description: string;
-        favorited: boolean;
-        favoritesCount: number;
-        slug: string;
-        tagList: string[];
-        title: string;
-        updatedAt: string;
-      }[];
-    };
-    currentPage: number;
-  };
-};
-
-type UserDataType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
-};
-
-type ArticleHeaderProps = {
-  item: ArticleType;
-};
-
-const ArticleDescription: React.FC<ArticleHeaderProps> = ({ item }) => {
+const ArticleDescription: React.FC<IArticleHeaderProps> = ({ item }) => {
   const dispatch = useDispatch<any>();
 
   const currentPage = useSelector(
-    (state: ArticleDataType) => state.articlesReducer.currentPage
+    (state: ArticlesStateType) => state.articlesReducer.currentPage
   );
 
   const usernameActive = useSelector(
-    (state: UserDataType) => state.logToAccountReducer.data?.user?.username
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.username
   );
   let isUserArticle: boolean = usernameActive === item.author.username;
 
   const userToken = useSelector(
-    (state: UserDataType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
 
   return (

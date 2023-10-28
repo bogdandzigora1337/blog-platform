@@ -7,16 +7,12 @@ import {
   CHANGE_USER_DATA_REQUEST,
   CHANGE_USER_DATA_SUCCESS,
   CLEAR_CHANGE_USER_DATA_ERROR,
+  CLEAR_USER_LOGIN_ERROR,
 } from "../types";
 
-interface IuserState {
-  data: object | null;
-  loader: boolean;
-  error: string | null | object;
-  editingError: string | null | object | boolean;
-}
+import { UserStateType } from "../../types/types";
 
-const initialState: IuserState = {
+const initialState: UserStateType["logToAccountReducer"] = {
   data: null,
   loader: false,
   error: null,
@@ -31,7 +27,8 @@ type userAction =
   | { type: typeof CHANGE_USER_DATA_REQUEST }
   | { type: typeof CHANGE_USER_DATA_SUCCESS; payload: object }
   | { type: typeof CHANGE_USER_DATA_FAILURE; payload: string | object }
-  | { type: typeof CLEAR_CHANGE_USER_DATA_ERROR };
+  | { type: typeof CLEAR_CHANGE_USER_DATA_ERROR }
+  | { type: typeof CLEAR_USER_LOGIN_ERROR };
 
 export const logToAccountReducer = (
   state = initialState,
@@ -92,6 +89,12 @@ export const logToAccountReducer = (
         error: null,
         loader: false,
         data: null,
+      };
+
+    case CLEAR_USER_LOGIN_ERROR:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

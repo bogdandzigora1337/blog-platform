@@ -6,23 +6,19 @@ import cl from "../SingInForm.module.scss";
 
 import InputField from "../../../Form/InputField/InputField";
 
+import { UserStateType } from "../../../../../types/types";
+
 type FormDataType = {
   email: string;
   password: string;
 };
 
-type ErrorType = {
-  logToAccountReducer: {
-    error: string | { errors: { "email or password": string } };
-  };
-};
-
-type SingInEmailInputProps = {
+interface ISingInEmailInputProps {
   errorType: string | false | null;
-  error: ErrorType["logToAccountReducer"]["error"];
-};
+  error: UserStateType["logToAccountReducer"]["error"];
+}
 
-const SingInEmailInput: React.FC<SingInEmailInputProps> = ({
+const SingInEmailInput: React.FC<ISingInEmailInputProps> = ({
   errorType,
   error,
 }) => {
@@ -50,7 +46,7 @@ const SingInEmailInput: React.FC<SingInEmailInputProps> = ({
           return true;
         }}
       />
-      {errorType && typeof error === "object" && "errors" in error && (
+      {error && typeof error === "object" && "errors" in error && (
         <p className={cl["error-text"]}>
           {"Email or password: " + error.errors["email or password"]}
         </p>

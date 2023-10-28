@@ -4,17 +4,10 @@ import { useFormContext } from "react-hook-form";
 import cl from "../SingUpForm.module.scss";
 
 import InputField from "../../../Form/InputField/InputField";
-
-type FormDataType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: string;
-};
+import { RegUserFormType } from "../../../../../types/types";
 
 const SingUpPasswordInput: React.FC = () => {
-  const { register, formState } = useFormContext<FormDataType>();
+  const { register, formState } = useFormContext<RegUserFormType>();
   const { errors } = formState;
 
   return (

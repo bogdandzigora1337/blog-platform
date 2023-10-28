@@ -1,56 +1,20 @@
+import React from "react";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
+
 import cl from "./ArticleHeaderRightContent.module.scss";
-import React from "react";
 
-type ArticleType = ArticleDataType["articlesReducer"]["data"]["articles"][0];
+import { ArticleDataType, UserStateType } from "../../../../../../types/types";
 
-type UserDataType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
+type IArticleHeaderProps = {
+  item: ArticleDataType;
 };
 
-type ArticleDataType = {
-  articlesReducer: {
-    data: {
-      articles: {
-        author: {
-          username: string;
-          image: string;
-          following: boolean;
-        };
-
-        body: string;
-        createdAt: string;
-        description: string;
-        favorited: boolean;
-        favoritesCount: number;
-        slug: string;
-        tagList: string[];
-        title: string;
-        updatedAt: string;
-      }[];
-    };
-  };
-};
-
-type ArticleHeaderProps = {
-  item: ArticleType;
-};
-
-export const ArticleHeaderRightContent: React.FC<ArticleHeaderProps> = ({
+export const ArticleHeaderRightContent: React.FC<IArticleHeaderProps> = ({
   item,
 }) => {
   const usernameActive = useSelector(
-    (state: UserDataType) => state.logToAccountReducer.data?.user?.username
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.username
   );
   let isUserArticle: boolean = usernameActive === item.author.username;
 

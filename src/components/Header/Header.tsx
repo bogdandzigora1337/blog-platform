@@ -9,35 +9,17 @@ import LoaderArticles from "./LoaderArticles/LoaderArticles";
 import { UserProfileHeader } from "./UserProfileHeader/UserProfileHeader";
 import { currentArticlesPage } from "../../redux/actions/articleActions";
 import { getArticles } from "../../redux/actions/articleActions";
-
-type UserTokenType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-  };
-};
-
-type LogInUserDetailsType = {
-  logToAccountReducer: {
-    data: null | { user: { username: string; email: string; token: string } };
-  };
-};
+import { UserStateType } from "../../types/types";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch<any>();
 
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
   );
 
   const logInUserDetails = useSelector(
-    (state: LogInUserDetailsType) => state.logToAccountReducer.data
+    (state: UserStateType) => state.logToAccountReducer.data
   );
 
   return (

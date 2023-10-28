@@ -5,13 +5,9 @@ import {
   CLEAR_REGISTER_USER_DATA,
 } from "../types";
 
-interface IuserState {
-  data: unknown[] | null;
-  loader: boolean;
-  error: string | null | object;
-}
+import { RegUserStateType } from "../../types/types";
 
-const initialState: IuserState = {
+const initialState: RegUserStateType["registrationReducer"] = {
   data: null,
   loader: false,
   error: null,

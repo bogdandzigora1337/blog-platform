@@ -3,16 +3,10 @@ import { useFormContext } from "react-hook-form";
 
 import cl from "./SingUpTermsOfUse.module.scss";
 
-type FormDataType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: string;
-};
+import { RegUserFormType } from "../../../../../types/types";
 
 const SingUpTermsOfUse: React.FC = () => {
-  const { register } = useFormContext<FormDataType>();
+  const { register } = useFormContext<RegUserFormType>();
   return (
     <div className={cl["sing-up__agreement-pers"]}>
       <input

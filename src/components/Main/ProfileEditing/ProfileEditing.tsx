@@ -5,51 +5,29 @@ import { useHistory } from "react-router-dom";
 
 import cl from "./ProfileEditing.module.scss";
 
-import { clearChangeUserDataErr } from "../../../redux/actions/authActions";
+import { clearChangeUserDataErrAction } from "../../../redux/actions/authActions";
 import ProfileEditAccessMessage from "./ProfileEditAccessMessage/ProfileEditAccessMessage";
 import ProfileEditingForm from "./ProfileEditingForm/ProfileEditingForm";
 import SuccessUpdateMessage from "./SuccessUpdateMessage/SuccessUpdateMessage";
-
-type UserTokenType = {
-  logToAccountReducer: {
-    data: {
-      user: {
-        token?: string;
-        image?: string;
-        email?: string;
-        username?: string;
-      } | null;
-    } | null;
-    editingError:
-      | {
-          errors?: {
-            username?: string;
-            email?: string;
-          };
-        }
-      | null
-      | boolean
-      | string;
-  };
-};
+import { UserStateType } from "../../../types/types";
 
 export const ProfileEditing: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch<any>();
   const userToken = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer?.data?.user?.token
+    (state: UserStateType) => state.logToAccountReducer?.data?.user?.token
   );
   const editingError = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.editingError
+    (state: UserStateType) => state.logToAccountReducer.editingError
   );
 
   const userData = useSelector(
-    (state: UserTokenType) => state.logToAccountReducer.data?.user
+    (state: UserStateType) => state.logToAccountReducer.data
   );
 
   history.listen((location, action) => {
     if (action === "PUSH" && location.pathname !== "/profile") {
-      dispatch(clearChangeUserDataErr());
+      dispatch(clearChangeUserDataErrAction());
     }
   });
 

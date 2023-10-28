@@ -10,42 +10,12 @@ import "./ArticleAntd.scss";
 import ArticleHeader from "./ArticleHeader/ArticleHeader";
 import ArticleDescription from "./ArticleDescription/ArticleDescription";
 
-type RootState = {
-  articlesReducer: {
-    data: {
-      articles: ArticleDataType[];
-    };
-  };
-};
+import { ArticlesStateType, ArticleDataType } from "../../../../types/types";
 
-type ArticleDataType = {
-  author: {
-    username: string;
-    image: string;
-    following: boolean;
-  };
-  body: string;
-  createdAt: string;
-  description: string;
-  favorited: boolean;
-  favoritesCount: number;
-  slug: string;
-  tagList: string[];
-  title: string;
-  updatedAt: string;
-};
-
-type PercentLoadType = {
-  articlesReducer: {
-    percentLoader?: number;
-    loader?: boolean;
-  };
-};
-
-type ArticlePropsType = {
+interface IArticleProps {
   item: ArticleDataType;
   children?: React.ReactNode;
-};
+}
 
 export const truncateText = (text: string, maxSymbol: number): string => {
   if (typeof text === "string" && text.length > maxSymbol) {
@@ -54,9 +24,9 @@ export const truncateText = (text: string, maxSymbol: number): string => {
   return text;
 };
 
-export const Article: React.FC<ArticlePropsType> = ({ item, children }) => {
+export const Article: React.FC<IArticleProps> = ({ item, children }) => {
   const isLoading = useSelector(
-    (state: PercentLoadType) => state.articlesReducer.loader
+    (state: ArticlesStateType) => state.articlesReducer.loader
   );
 
   return (
@@ -78,7 +48,7 @@ export const Article: React.FC<ArticlePropsType> = ({ item, children }) => {
 
 export const ArticlesData: React.FC = () => {
   const articles = useSelector(
-    (state: RootState) => state.articlesReducer.data?.articles
+    (state: ArticlesStateType) => state.articlesReducer.data?.articles
   );
 
   const renderedArticles = articles

@@ -1,35 +1,23 @@
 import React from "react";
-import { Button } from "antd";
-import cl from "./UserProfileHeader.module.scss";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logOutAction } from "../../../redux/actions/authActions";
 import { Link } from "react-router-dom";
+import { Button } from "antd";
 
-interface User {
-  username: string;
-  email: string;
-  token: string;
-  image: string;
-}
+import cl from "./UserProfileHeader.module.scss";
 
-interface LogInUserDetailsType {
-  logToAccountReducer: {
-    data: null | {
-      user: User;
-    };
-  };
-}
+import { logOutActionAction } from "../../../redux/actions/authActions";
+import { UserStateType } from "../../../types/types";
 
 export const UserProfileHeader: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
-    dispatch(logOutAction());
+    dispatch(logOutActionAction());
   };
 
   const logInUserDetails = useSelector(
-    (state: LogInUserDetailsType) => state.logToAccountReducer.data?.user
+    (state: UserStateType) => state.logToAccountReducer.data?.user
   );
 
   return (

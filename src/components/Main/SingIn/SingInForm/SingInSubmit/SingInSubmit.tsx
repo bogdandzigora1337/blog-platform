@@ -1,8 +1,12 @@
 import React from "react";
 
+import { useDispatch } from "react-redux";
+
 import { useFormContext } from "react-hook-form";
 
 import cl from "./SingInSubmit.module.scss";
+
+import { clearUserLoginErrorAction } from "../../../../../redux/actions/authActions";
 
 type FormDataType = {
   email: string;
@@ -10,6 +14,8 @@ type FormDataType = {
 };
 
 const SingInSubmit: React.FC = () => {
+  const dispatch = useDispatch<any>();
+
   const { formState } = useFormContext<FormDataType>();
   const { isValid } = formState;
 
@@ -19,6 +25,7 @@ const SingInSubmit: React.FC = () => {
       value={"Login"}
       className={cl["sing-in__log"]}
       disabled={!isValid}
+      onClick={() => dispatch(clearUserLoginErrorAction())}
     />
   );
 };

@@ -1,5 +1,3 @@
-import { Dispatch } from "redux";
-
 import {
   FETCH_ARTICLES_FAILURE,
   FETCH_ARTICLES_REQUEST,
@@ -10,19 +8,8 @@ import {
   CREATE_ARTICLES_SUCCESS,
   ARTICLE_DELETE_SUCCESS,
 } from "../types";
-
-type createArticleDataType = {
-  token: string | null | undefined;
-  slug?: string;
-  data: {
-    article: {
-      title: string;
-      description: string;
-      body: string;
-      tagList: string[] | [];
-    };
-  };
-};
+import { Dispatch } from "redux";
+import { createArticleDataType } from "../../types/types";
 
 export const getArticlesRequest = () => ({
   type: FETCH_ARTICLES_REQUEST,

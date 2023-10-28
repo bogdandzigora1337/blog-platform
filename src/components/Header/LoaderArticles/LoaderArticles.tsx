@@ -4,23 +4,16 @@ import { useSelector } from "react-redux";
 
 import styles from "./LoaderArticles.module.scss";
 
-interface LoaderArticlesProps {}
+import { ArticlesStateType } from "../../../types/types";
 
-type PercentLoadType = {
-  articlesReducer: {
-    percentLoader?: number;
-    loader?: boolean;
-  };
-};
-
-const LoaderArticles: React.FC<LoaderArticlesProps> = () => {
+const LoaderArticles: React.FC = () => {
   const loaderColors = { "0%": "#f3f7fa", "100%": "#2196f3" };
 
   const isLoading = useSelector(
-    (state: PercentLoadType) => state.articlesReducer.loader
+    (state: ArticlesStateType) => state.articlesReducer.loader
   );
   const percentLoad = useSelector(
-    (state: PercentLoadType) => state.articlesReducer.percentLoader
+    (state: ArticlesStateType) => state.articlesReducer.percentLoader
   );
 
   return (

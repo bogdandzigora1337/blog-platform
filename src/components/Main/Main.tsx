@@ -34,42 +34,38 @@ const Main: React.FC = () => {
     (state: IsAuthenticatedType) => !!state.logToAccountReducer.data
   );
 
+  const articleErrorNotification = () => (
+    <h1 className={cl["main__error-notification"]}>
+      ⚠️ An error occurred while receiving data from the server! Try refreshing
+      the page
+    </h1>
+  );
+
   return (
     <div className={cl["main"]}>
       <Route path={"/profile"} render={() => <ProfileEditing />} />
       <Route path={"/sing-in"} render={() => <SingIn />} />
       <Route path={"/sing-up"} render={() => <SingUp />} />
+
       <Route path={"/new-article"}>
         {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
       </Route>
+
       <Route path="/articles/:slug/edit">
         {isAuthenticated ? <ArticlesCreating /> : <Redirect to={"/sing-in"} />}
       </Route>
-      {!hasError ? (
-        <>
-          <Route
-            exact={true}
-            path="/articles/:slug"
-            component={ArticleExpanded}
-          />
 
-          <Route
-            exact={true}
-            path={["/articles", "/"]}
-            component={ArticlesList}
-          />
+      <Route exact={true} path="/articles/:slug">
+        {!hasError ? <ArticleExpanded /> : null}
+      </Route>
 
-          <Route
-            exact
-            path={["/articles", "/"]}
-            component={PaginationArticles}
-          />
-        </>
-      ) : (
-        <h1 className={cl["main__error-notification"]}>
-          ⚠️ Произошла ошибка при получении данных с сервера!
-        </h1>
-      )}
+      <Route exact={true} path={["/articles", "/"]}>
+        {!hasError ? <ArticlesList /> : articleErrorNotification()}
+      </Route>
+
+      <Route exact path={["/articles", "/"]}>
+        {!hasError ? <PaginationArticles /> : null}
+      </Route>
     </div>
   );
 };

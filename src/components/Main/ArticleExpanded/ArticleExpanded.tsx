@@ -3,43 +3,20 @@ import { useParams } from "react-router-dom";
 import Markdown from "react-markdown";
 import { useSelector } from "react-redux";
 
-import { Article } from "../ArticlesList/Article/Article";
-
 import cl from "./ArticleExpanded.module.scss";
 
-interface ArticleExpandedProps {
+import { ArticlesStateType } from "../../../types/types";
+import { Article } from "../ArticlesList/Article/Article";
+
+interface IArticleExpandedProps {
   slug: string;
 }
 
-type RootState = {
-  articlesReducer: {
-    data: {
-      articles: {
-        author: {
-          username: string;
-          image: string;
-          following: boolean;
-        };
-
-        body: string;
-        createdAt: string;
-        description: string;
-        favorited: boolean;
-        favoritesCount: number;
-        slug: string;
-        tagList: string[];
-        title: string;
-        updatedAt: string;
-      }[];
-    };
-  };
-};
-
 export const ArticleExpanded: React.FC = () => {
-  const { slug } = useParams<ArticleExpandedProps>();
+  const { slug } = useParams<IArticleExpandedProps>();
 
   const articles = useSelector(
-    (state: RootState) => state.articlesReducer.data?.articles || []
+    (state: ArticlesStateType) => state.articlesReducer.data?.articles || []
   );
 
   const article = articles.find((item) => item.slug === slug);

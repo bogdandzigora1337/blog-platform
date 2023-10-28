@@ -4,21 +4,14 @@ import { useFormContext } from "react-hook-form";
 import cl from "../SingUpForm.module.scss";
 
 import InputField from "../../../Form/InputField/InputField";
+import { RegUserStateType, RegUserFormType } from "../../../../../types/types";
 
-type FormDataType = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: string;
-};
+interface IErrorInputPropsType {
+  error: RegUserStateType["registrationReducer"]["error"];
+}
 
-type ErrorInputPropsType = {
-  error: string | { errors: { username?: string; email?: string } } | null;
-};
-
-const SingUpUsernameInput: React.FC<ErrorInputPropsType> = ({ error }) => {
-  const { register, formState } = useFormContext<FormDataType>();
+const SingUpUsernameInput: React.FC<IErrorInputPropsType> = ({ error }) => {
+  const { register, formState } = useFormContext<RegUserFormType>();
   const { errors } = formState;
 
   const usernameError =
