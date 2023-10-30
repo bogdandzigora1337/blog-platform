@@ -1,35 +1,31 @@
-import React from "react";
+import React from 'react'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useForm, FormProvider } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { logToAcc } from "../../../../redux/actions/authActions";
+import { logToAcc } from '../../../../redux/actions/authActions'
+import { UserStateType } from '../../../../types/types'
 
-import SingInEmailInput from "./SingInEmailInput/SingInEmailInput";
-import SingInPasswordInput from "./SingInPasswordInput/SingInPasswordInput";
-import SingInSubmit from "./SingInSubmit/SingInSubmit";
-
-import { UserStateType } from "../../../../types/types";
+import SingInEmailInput from './SingInEmailInput/SingInEmailInput'
+import SingInPasswordInput from './SingInPasswordInput/SingInPasswordInput'
+import SingInSubmit from './SingInSubmit/SingInSubmit'
 
 type FormDataType = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 
 const SingInForm: React.FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>()
 
-  const error = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.error
-  );
+  const error = useSelector((state: UserStateType) => state.logToAccountReducer.error)
 
-  const errorType =
-    error && typeof error === "object" && error.errors["email or password"];
+  const errorType = error && typeof error === 'object' && error.errors['email or password']
 
-  const methods = useForm<FormDataType>({ mode: "onBlur" });
+  const methods = useForm<FormDataType>({ mode: 'onBlur' })
 
   const onSubmit = (data: FormDataType) => {
-    dispatch(logToAcc(data.email, data.password));
-  };
+    dispatch(logToAcc(data.email, data.password))
+  }
 
   return (
     <FormProvider {...methods}>
@@ -39,7 +35,7 @@ const SingInForm: React.FC = () => {
         <SingInSubmit />
       </form>
     </FormProvider>
-  );
-};
+  )
+}
 
-export default SingInForm;
+export default SingInForm

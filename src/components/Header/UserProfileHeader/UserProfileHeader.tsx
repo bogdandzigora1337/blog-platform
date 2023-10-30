@@ -1,31 +1,25 @@
-import React from "react";
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { logOutActionAction } from '../../../redux/actions/authActions'
+import { UserStateType } from '../../../types/types'
 
-import cl from "./UserProfileHeader.module.scss";
-
-import { logOutActionAction } from "../../../redux/actions/authActions";
-import { UserStateType } from "../../../types/types";
+import cl from './UserProfileHeader.module.scss'
 
 export const UserProfileHeader: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleLogOut = () => {
-    dispatch(logOutActionAction());
-  };
+    dispatch(logOutActionAction())
+  }
 
-  const logInUserDetails = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.data?.user
-  );
+  const logInUserDetails = useSelector((state: UserStateType) => state.logToAccountReducer.data?.user)
 
   return (
-    <div className={cl["header__user-profile"]}>
-      <Link
-        to="/new-article"
-        className={cl["header__user-profile__link--create-article"]}
-      >
+    <div className={cl['header__user-profile']}>
+      <Link to="/new-article" className={cl['header__user-profile__link--create-article']}>
         <CustomButton
           classBtn="header__btn--create-article"
           classImg="header__btn--create-article__icon"
@@ -37,18 +31,13 @@ export const UserProfileHeader: React.FC = () => {
         />
       </Link>
 
-      <Link to="/profile" className={cl["header__user-profile__link"]}>
-        <div className={cl["header__user-profile__data"]}>
-          <h6 className={cl["header__user-profile__data__username"]}>
-            {logInUserDetails?.username}
-          </h6>
+      <Link to="/profile" className={cl['header__user-profile__link']}>
+        <div className={cl['header__user-profile__data']}>
+          <h6 className={cl['header__user-profile__data__username']}>{logInUserDetails?.username}</h6>
 
           <img
-            className={cl["header__user-profile__data__image"]}
-            src={
-              logInUserDetails?.image ||
-              "https://www.meme-arsenal.com/memes/9deabcb50a53c324b3a4981528215040.jpg"
-            }
+            className={cl['header__user-profile__data__image']}
+            src={logInUserDetails?.image || 'https://www.meme-arsenal.com/memes/9deabcb50a53c324b3a4981528215040.jpg'}
             alt="no-image"
           />
         </div>
@@ -65,18 +54,18 @@ export const UserProfileHeader: React.FC = () => {
         onClick={handleLogOut}
       />
     </div>
-  );
-};
+  )
+}
 
 interface ButtonProps {
-  text: string;
-  borderColor: string;
-  color?: string;
-  iconSrc?: string;
-  alt?: string;
-  classBtn?: string;
-  classImg?: string;
-  onClick?: () => void;
+  text: string
+  borderColor: string
+  color?: string
+  iconSrc?: string
+  alt?: string
+  classBtn?: string
+  classImg?: string
+  onClick?: () => void
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -101,5 +90,5 @@ const CustomButton: React.FC<ButtonProps> = ({
       {text}
       <img src={iconSrc} alt={alt} className={cl[`${classImg}`]} />
     </Button>
-  );
-};
+  )
+}

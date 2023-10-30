@@ -1,81 +1,65 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Button, Popconfirm } from 'antd'
 
-import { Button, Popconfirm } from "antd";
+import { ArticleDataType, ArticlesStateType, UserStateType } from '../../../../../types/types'
+import { truncateText } from '../Article'
+import { articleDelete, getArticles } from '../../../../../redux/actions/articleActions'
 
-import cl from "./ArticleDescription.module.scss";
+import cl from './ArticleDescription.module.scss'
 
-import "../ArticleAntd.scss";
-import { articleDelete } from "../../../../../redux/actions/articleActions";
-import { getArticles } from "../../../../../redux/actions/articleActions";
-import { truncateText } from "../Article";
-import {
-  ArticleDataType,
-  ArticlesStateType,
-  UserStateType,
-} from "../../../../../types/types";
+import '../ArticleAntd.scss'
 
 interface IArticleHeaderProps {
-  item: ArticleDataType;
+  item: ArticleDataType
 }
 
 const ArticleDescription: React.FC<IArticleHeaderProps> = ({ item }) => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>()
 
-  const currentPage = useSelector(
-    (state: ArticlesStateType) => state.articlesReducer.currentPage
-  );
+  const currentPage = useSelector((state: ArticlesStateType) => state.articlesReducer.currentPage)
 
-  const usernameActive = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.data?.user?.username
-  );
-  let isUserArticle: boolean = usernameActive === item.author.username;
+  const usernameActive = useSelector((state: UserStateType) => state.logToAccountReducer.data?.user?.username)
+  let isUserArticle: boolean = usernameActive === item.author.username
 
-  const userToken = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
-  );
+  const userToken = useSelector((state: UserStateType) => state.logToAccountReducer.data?.user?.token)
 
   return (
     <>
-      <div className={cl["article-description"]}>
-        <p className={cl["article-description__text"]}>
-          {truncateText(item.description, 200)}
-        </p>
+      <div className={cl['article-description']}>
+        <p className={cl['article-description__text']}>{truncateText(item.description, 200)}</p>
         {isUserArticle && (
-          <div className={cl["article-description__btn"]}>
+          <div className={cl['article-description__btn']}>
             <Popconfirm
-              className={cl["article-description__btn__delete"]}
+              className={cl['article-description__btn__delete']}
               placement="rightTop"
-              title={"text"}
-              description={"Are you sure to delete this article?"}
+              title={'text'}
+              description={'Are you sure to delete this article?'}
               onConfirm={() => {
-                userToken && dispatch(articleDelete(userToken, item.slug));
+                userToken && dispatch(articleDelete(userToken, item.slug))
                 setTimeout(() => {
-                  dispatch(getArticles(5, 5 * currentPage - 5, userToken));
-                }, 300);
+                  dispatch(getArticles(5, 5 * currentPage - 5, userToken))
+                }, 300)
               }}
               okText="Yes"
               cancelText="No"
             >
               <Button
                 style={{
-                  borderColor: "1px solid var(--success-color, #F5222D)",
-                  color: "var(--success-color, #F5222D)",
+                  borderColor: '1px solid var(--success-color, #F5222D)',
+                  color: 'var(--success-color, #F5222D)',
                 }}
               >
                 Delete
               </Button>
             </Popconfirm>
 
-            <Link
-              to={`/articles/${item.slug}/edit`}
-              className={cl["article-description__btn__edit"]}
-            >
+            <Link to={`/articles/${item.slug}/edit`} className={cl['article-description__btn__edit']}>
               <Button
                 style={{
-                  borderColor: "1px solid var(--success-color, #52C41A)",
-                  color: "var(--success-color, #52C41A)",
+                  borderColor: '1px solid var(--success-color, #52C41A)',
+                  color: 'var(--success-color, #52C41A)',
                 }}
               >
                 Edit
@@ -85,7 +69,7 @@ const ArticleDescription: React.FC<IArticleHeaderProps> = ({ item }) => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ArticleDescription;
+export default ArticleDescription

@@ -1,24 +1,23 @@
-import React from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import React from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 
-import cl from "../SingUpForm.module.scss";
-
-import InputField from "../../../Form/InputField/InputField";
-import { RegUserFormType } from "../../../../../types/types";
+import cl from '../SingUpForm.module.scss'
+import InputField from '../../../Form/InputField/InputField'
+import { RegUserFormType } from '../../../../../types/types'
 
 const SingUpConfirmPasswordInput: React.FC = () => {
-  const { register, formState, control } = useFormContext<RegUserFormType>();
-  const { errors } = formState;
+  const { register, formState, control } = useFormContext<RegUserFormType>()
+  const { errors } = formState
 
   const password = useWatch({
     control,
-    name: "password",
-    defaultValue: "",
-  });
+    name: 'password',
+    defaultValue: '',
+  })
 
   return (
     <>
-      <div className={cl["sing-up__item"]}>
+      <div className={cl['sing-up__item']}>
         <InputField
           type="password"
           label="Repeat Password"
@@ -27,12 +26,12 @@ const SingUpConfirmPasswordInput: React.FC = () => {
           errors={errors}
           placeholder="Repeat Password"
           validate={(value: string) => {
-            return value === password || "Passwords must match";
+            return value === password || 'Passwords must match'
           }}
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SingUpConfirmPasswordInput;
+export default SingUpConfirmPasswordInput

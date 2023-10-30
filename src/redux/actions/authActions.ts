@@ -1,4 +1,5 @@
-import { Dispatch } from "redux";
+/* eslint-disable-next-line */
+import { Dispatch } from 'redux'
 
 import {
   LOGIN_TO_ACCOUNT_REQUEST,
@@ -14,36 +15,36 @@ import {
   CLEAR_CHANGE_USER_DATA_ERROR,
   CLEAR_REGISTER_USER_DATA,
   CLEAR_USER_LOGIN_ERROR,
-} from "../types";
+} from '../types'
 
 type userDataType = {
-  token?: string | null;
+  token?: string | null
   user: {
-    username?: string;
-    email?: string;
-    password?: string;
-    image?: null | string;
-    token?: string | null;
-  };
-};
+    username?: string
+    email?: string
+    password?: string
+    image?: null | string
+    token?: string | null
+  }
+}
 
 export const logToAccRequestAction = () => ({
   type: LOGIN_TO_ACCOUNT_REQUEST,
-});
+})
 
 export const logToAccSuccessAction = (data: unknown) => ({
   type: LOGIN_TO_ACCOUNT_SUCCESS,
   payload: data,
-});
+})
 
 export const logToAccFailureAction = (error: string | object) => ({
   type: LOGIN_TO_ACCOUNT_FAILURE,
   payload: error,
-});
+})
 
 export const logOutActionAction = () => ({
   type: LOGIN_OUT,
-});
+})
 
 export const logToAcc = (email: string, password: string) => {
   const userReg: userDataType = {
@@ -51,15 +52,15 @@ export const logToAcc = (email: string, password: string) => {
       email: email,
       password: password,
     },
-  };
+  }
 
   return (dispatch: Dispatch) => {
-    dispatch(logToAccRequestAction());
+    dispatch(logToAccRequestAction())
 
-    fetch("https://blog.kata.academy/api/users/login", {
-      method: "POST",
+    fetch('https://blog.kata.academy/api/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userReg),
     })
@@ -67,45 +68,45 @@ export const logToAcc = (email: string, password: string) => {
         if (!response.ok) {
           if (response.status === 422) {
             return response.json().then((errorData) => {
-              dispatch(logToAccFailureAction(errorData));
-            });
+              dispatch(logToAccFailureAction(errorData))
+            })
           }
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         } else {
-          return response.json();
+          return response.json()
         }
       })
       .then((responseData) => {
-        dispatch(logToAccSuccessAction(responseData));
+        dispatch(logToAccSuccessAction(responseData))
       })
       .catch((error) => {
-        dispatch(logToAccFailureAction(error.message));
-      });
-  };
-};
+        dispatch(logToAccFailureAction(error.message))
+      })
+  }
+}
 
 const registrationUserRequestAction = () => ({
   type: REGISTER_USER_REQUEST,
-});
+})
 
 const registrationUserSuccessAction = (data: unknown) => ({
   type: REGISTER_USER_SUCCESS,
   payload: data,
-});
+})
 
 const registrationUserFailureAction = (error: string | object) => ({
   type: REGISTER_USER_FAILURE,
   payload: error,
-});
+})
 
 export const registrationUser = (data: userDataType) => {
   return (dispatch: Dispatch) => {
-    dispatch(registrationUserRequestAction());
+    dispatch(registrationUserRequestAction())
 
-    fetch("https://blog.kata.academy/api/users", {
-      method: "POST",
+    fetch('https://blog.kata.academy/api/users', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
@@ -113,81 +114,77 @@ export const registrationUser = (data: userDataType) => {
         if (!response.ok) {
           if (response.status === 422) {
             return response.json().then((errorData) => {
-              dispatch(registrationUserFailureAction(errorData));
-            });
+              dispatch(registrationUserFailureAction(errorData))
+            })
           }
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         } else {
-          return response.json();
+          return response.json()
         }
       })
       .then((responseData) => {
-        dispatch(registrationUserSuccessAction(responseData));
+        dispatch(registrationUserSuccessAction(responseData))
       })
       .catch((error) => {
-        dispatch(registrationUserFailureAction(error.message));
-      });
-  };
-};
+        dispatch(registrationUserFailureAction(error.message))
+      })
+  }
+}
 
 export const changeUserDataRequestAction = () => ({
   type: CHANGE_USER_DATA_REQUEST,
-});
+})
 
 export const changeUserDataSuccessAction = (data: unknown) => ({
   type: CHANGE_USER_DATA_SUCCESS,
   payload: data,
-});
+})
 
 export const changeUserDataFailureAction = (error: string | object) => ({
   type: CHANGE_USER_DATA_FAILURE,
   payload: error,
-});
+})
 
 export const changeUserData = (data: userDataType) => {
   return (dispatch: Dispatch) => {
-    dispatch(changeUserDataRequestAction());
+    dispatch(changeUserDataRequestAction())
 
-    fetch("https://blog.kata.academy/api/user", {
-      method: "PUT",
+    fetch('https://blog.kata.academy/api/user', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Token ${data.token}`,
       },
       body: JSON.stringify(data),
     })
       .then((response) => {
         if (!response.ok) {
-          if (
-            response.status === 401 ||
-            response.status === 404 ||
-            response.status === 422
-          ) {
+          if (response.status === 401 || response.status === 404 || response.status === 422) {
             return response.json().then((errorData) => {
-              dispatch(changeUserDataFailureAction(errorData));
-            });
+              dispatch(changeUserDataFailureAction(errorData))
+            })
           }
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         } else {
           return response.json().then((responseData) => {
-            dispatch(changeUserDataSuccessAction(responseData));
-          });
+            dispatch(changeUserDataSuccessAction(responseData))
+          })
         }
       })
       .catch((error) => {
-        dispatch(changeUserDataFailureAction(error.message));
-      });
-  };
-};
+        dispatch(changeUserDataFailureAction(error.message))
+      })
+  }
+}
 
 export const clearChangeUserDataErrAction = () => ({
   type: CLEAR_CHANGE_USER_DATA_ERROR,
-});
+})
 
 export const clearRegUserDataAction = () => ({
   type: CLEAR_REGISTER_USER_DATA,
-});
+})
 
 export const clearUserLoginErrorAction = () => ({
   type: CLEAR_USER_LOGIN_ERROR,
-});
+})

@@ -7,11 +7,11 @@
 }
 
 @font-face {
-  font-family: "Inter UI";
+  font-family: 'Inter UI';
   font-display: swap;
-  src: url("./fonts/Inter-Regular.woff"), url("./fonts/Inter-Regular.woff2");
+  src: url('./fonts/Inter-Regular.woff'), url('./fonts/Inter-Regular.woff2');
 }
 
 body {
-  font-family: "Inter UI", sans-serif;
+  font-family: 'Inter UI', sans-serif;
 }

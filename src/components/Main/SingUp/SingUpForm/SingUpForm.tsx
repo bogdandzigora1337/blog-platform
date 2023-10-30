@@ -1,29 +1,23 @@
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import React from 'react'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useDispatch, useSelector } from "react-redux";
+import { clearRegUserDataAction, registrationUser } from '../../../../redux/actions/authActions'
+import { RegUserStateType, RegUserFormType } from '../../../../types/types'
 
-import { clearRegUserDataAction } from "../../../../redux/actions/authActions";
-
-import { registrationUser } from "../../../../redux/actions/authActions";
-
-import SingUpUsernameInput from "./SingUpUsernameInput/SingUpUsernameInput";
-import SingUpEmailInput from "./SingUpEmailInput/SingUpEmailInput";
-import SingUpPasswordInput from "./SingUpPasswordInput/SingUpPasswordInput";
-import SingUpConfirmPasswordInput from "./SingUpConfirmPasswordInput/SingUpConfirmPasswordInput";
-import SingUpTermsOfUse from "./SingUpTermsOfUse/SingUpTermsOfUse";
-import SingUpSubmit from "./SingUpSubmit/SingUpSubmit";
-
-import { RegUserStateType, RegUserFormType } from "../../../../types/types";
+import SingUpUsernameInput from './SingUpUsernameInput/SingUpUsernameInput'
+import SingUpEmailInput from './SingUpEmailInput/SingUpEmailInput'
+import SingUpPasswordInput from './SingUpPasswordInput/SingUpPasswordInput'
+import SingUpConfirmPasswordInput from './SingUpConfirmPasswordInput/SingUpConfirmPasswordInput'
+import SingUpTermsOfUse from './SingUpTermsOfUse/SingUpTermsOfUse'
+import SingUpSubmit from './SingUpSubmit/SingUpSubmit'
 
 export const SingUpForm: React.FC = () => {
-  const dispatch = useDispatch<any>();
-  const error = useSelector(
-    (state: RegUserStateType) => state.registrationReducer.error
-  );
+  const dispatch = useDispatch<any>()
+  const error = useSelector((state: RegUserStateType) => state.registrationReducer.error)
 
-  const { reset } = useForm<RegUserFormType>({ mode: "onBlur" });
-  const methods = useForm<RegUserFormType>({ mode: "onBlur" });
+  const { reset } = useForm<RegUserFormType>({ mode: 'onBlur' })
+  const methods = useForm<RegUserFormType>({ mode: 'onBlur' })
 
   const onSubmit = (data: RegUserFormType) => {
     const obj = {
@@ -32,11 +26,11 @@ export const SingUpForm: React.FC = () => {
         email: data.email,
         password: data.password,
       },
-    };
-    dispatch(registrationUser(obj));
-    dispatch(clearRegUserDataAction());
-    reset();
-  };
+    }
+    dispatch(registrationUser(obj))
+    dispatch(clearRegUserDataAction())
+    reset()
+  }
 
   return (
     <FormProvider {...methods}>
@@ -49,5 +43,5 @@ export const SingUpForm: React.FC = () => {
         <SingUpSubmit />
       </form>
     </FormProvider>
-  );
-};
+  )
+}

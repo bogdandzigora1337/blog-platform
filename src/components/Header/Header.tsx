@@ -1,36 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
-import cl from "./Header.module.scss";
+import { currentArticlesPage, getArticles } from '../../redux/actions/articleActions'
+import { UserStateType } from '../../types/types'
 
-import AuthProfile from "./AuthProfile/AuthProfile";
-import LoaderArticles from "./LoaderArticles/LoaderArticles";
-import { UserProfileHeader } from "./UserProfileHeader/UserProfileHeader";
-import { currentArticlesPage } from "../../redux/actions/articleActions";
-import { getArticles } from "../../redux/actions/articleActions";
-import { UserStateType } from "../../types/types";
+import cl from './Header.module.scss'
+import AuthProfile from './AuthProfile/AuthProfile'
+import LoaderArticles from './LoaderArticles/LoaderArticles'
+import { UserProfileHeader } from './UserProfileHeader/UserProfileHeader'
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>()
 
-  const userToken = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.data?.user?.token
-  );
+  const userToken = useSelector((state: UserStateType) => state.logToAccountReducer.data?.user?.token)
 
-  const logInUserDetails = useSelector(
-    (state: UserStateType) => state.logToAccountReducer.data
-  );
+  const logInUserDetails = useSelector((state: UserStateType) => state.logToAccountReducer.data)
 
   return (
-    <header className={cl["header"]}>
-      <div className={cl["header__container"]}>
+    <header className={cl['header']}>
+      <div className={cl['header__container']}>
         <Link
-          to={`/articles/`}
-          className={cl["header__title"]}
+          to={'/articles/'}
+          className={cl['header__title']}
           onClick={() => {
-            dispatch(currentArticlesPage(1));
-            dispatch(getArticles(5, 0, userToken));
+            dispatch(currentArticlesPage(1))
+            dispatch(getArticles(5, 0, userToken))
           }}
         >
           <p>Realworld Blog</p>
@@ -39,7 +34,7 @@ const Header: React.FC = () => {
       </div>
       <LoaderArticles />
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

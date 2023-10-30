@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react'
 
-import cl from "./InputField.module.scss";
+import cl from './InputField.module.scss'
 
 interface InputFieldProps {
-  label?: string;
-  type: string;
-  name: string;
-  register: Function;
-  errors?: any;
-  placeholder: string;
-  className?: string;
-  minLength?: number;
-  maxLength?: number;
-  isTextarea?: boolean;
-  pattern?: any;
-  validate?: any;
-  isRequired?: boolean;
-  serverRequestError?: false | string | null;
+  label?: string
+  type: string
+  name: string
+  register: Function
+  errors?: any
+  placeholder: string
+  className?: string
+  minLength?: number
+  maxLength?: number
+  isTextarea?: boolean
+  pattern?: any
+  validate?: any
+  isRequired?: boolean
+  serverRequestError?: false | string | null
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -38,11 +38,11 @@ const InputField: React.FC<InputFieldProps> = ({
     {label && <label>{label}</label>}
     {isTextarea ? (
       <textarea
-        className={(errors[name] || serverRequestError) && cl["input-error"]}
+        className={(errors[name] || serverRequestError) && cl['input-error']}
         {...register(name, {
           validate: validate,
           pattern: pattern,
-          required: isRequired === undefined ? "This field is required" : false,
+          required: isRequired === undefined ? 'This field is required' : false,
           minLength: {
             value: minLength,
             message: `Minimum ${minLength} characters`,
@@ -56,9 +56,9 @@ const InputField: React.FC<InputFieldProps> = ({
       />
     ) : (
       <input
-        className={(errors[name] || serverRequestError) && cl["input-error"]}
+        className={(errors[name] || serverRequestError) && cl['input-error']}
         {...register(name, {
-          required: isRequired === undefined ? "This field is required" : false,
+          required: isRequired === undefined ? 'This field is required' : false,
           validate: validate,
           pattern: pattern,
           minLength: {
@@ -74,10 +74,8 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
       />
     )}
-    {!!errors[name] && (
-      <p className={cl["error-text"]}>{errors[name]?.message || "Error"}</p>
-    )}
+    {!!errors[name] && <p className={cl['error-text']}>{errors[name]?.message || 'Error'}</p>}
   </>
-);
+)
 
-export default InputField;
+export default InputField

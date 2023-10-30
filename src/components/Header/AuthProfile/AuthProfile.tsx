@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Space } from "antd";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Button, Space } from 'antd'
 
-import styles from "./AuthProfile.module.scss";
+import styles from './AuthProfile.module.scss'
 
 const AuthButton: React.FC<{
-  to: string;
-  text: string;
-  color?: string;
-  borderColor?: string;
+  to: string
+  text: string
+  color?: string
+  borderColor?: string
 }> = ({ to, text, color, borderColor }) => {
   return (
     <Link to={to}>
@@ -23,17 +23,13 @@ const AuthButton: React.FC<{
         {text}
       </Button>
     </Link>
-  );
-};
+  )
+}
 
 const AuthProfile: React.FC = () => {
   return (
     <Space className={styles.authProfile}>
-      <AuthButton
-        to="/sing-in"
-        text="Sign In"
-        color="var(--heading-color, rgba(0, 0, 0, 0.85)"
-      />
+      <AuthButton to="/sing-in" text="Sign In" color="var(--heading-color, rgba(0, 0, 0, 0.85)" />
       <AuthButton
         to="/sing-up"
         text="Sign Up"
@@ -41,7 +37,7 @@ const AuthProfile: React.FC = () => {
         color="var(--success-color, #52C41A)"
       />
     </Space>
-  );
-};
+  )
+}
 
-export default AuthProfile;
+export default AuthProfile
